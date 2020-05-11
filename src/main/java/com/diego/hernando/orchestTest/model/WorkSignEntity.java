@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@Table(indexes = {@Index(name = "dateOrderedIndex",  columnList="date")})
 public class WorkSignEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +17,6 @@ public class WorkSignEntity {
     private String businessId;
 
     @Column(nullable=false)
-    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @Column(nullable=false)
