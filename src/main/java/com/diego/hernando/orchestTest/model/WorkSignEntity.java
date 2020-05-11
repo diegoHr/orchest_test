@@ -26,7 +26,6 @@ public class WorkSignEntity {
     @Column(nullable=false,length = 6)
     private WorkSignRecordType recordType;
 
-
     private String serviceId;
 
     @Enumerated(EnumType.STRING)
