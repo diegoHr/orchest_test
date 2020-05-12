@@ -1,12 +1,18 @@
 package com.diego.hernando.orchestTest.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(indexes = {@Index(name = "dateOrderedIndex",  columnList="date")})
 public class WorkSignEntity {
     @Id
