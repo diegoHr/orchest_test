@@ -6,7 +6,6 @@ public interface IRestResponse {
 
     public Status getStatus ();
     public String getMessage ();
-    public Long getOptionalId();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     public static enum Status {

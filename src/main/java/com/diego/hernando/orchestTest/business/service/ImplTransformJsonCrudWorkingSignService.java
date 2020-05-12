@@ -4,12 +4,14 @@ import com.diego.hernando.orchestTest.business.WorkSignDto;
 import com.diego.hernando.orchestTest.model.WorkSignEntity;
 import com.diego.hernando.orchestTest.model.service.ICrudWorkSignService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier("TransformJsonCrudWorkingSignService")
 public class ImplTransformJsonCrudWorkingSignService implements ITransformJsonCrudWorkSignService {
     @Autowired
     private ICrudWorkSignService crudWorkSignService;

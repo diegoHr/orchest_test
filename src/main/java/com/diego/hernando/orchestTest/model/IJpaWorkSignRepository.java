@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface IJpaWorkSignRepository extends CrudRepository<WorkSignEntity, Long> {
 
-    public List<WorkSignEntity> findByBusinessIdAndEmployeeId(String businessId, String employeeId);
+    public List<WorkSignEntity> findByBusinessIdAndEmployeeIdOrderByDateAsc(String businessId, String employeeId);
 }

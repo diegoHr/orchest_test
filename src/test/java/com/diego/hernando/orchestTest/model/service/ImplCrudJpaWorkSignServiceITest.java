@@ -87,6 +87,24 @@ public class ImplCrudJpaWorkSignServiceITest {
         assertThat(service.findById(1L).isPresent(), is(false));
     }
 
+    @Test
+    public void save_disordered_list_of_worker_and_recover_ordered (){
+        List<WorkSignEntity> entitiesToSave = new ArrayList<>(3);
+        DateTime date = new DateTime(parseDate(defaultDate));
+
+        entitiesToSave.add(builderEntity.date(date.plusHours(10).toDate()).build());
+        entitiesToSave.add(builderEntity.date(date.minusHours(10).toDate()).build());
+        entitiesToSave.add(builderEntity.date(date.toDate()).build());
+
+
+        service.saveAll(entitiesToSave);
+        List<WorkSignEntity> entitiesSaved = service.findWorkSignsOfWorker(defaultBusinessId, "01");
+        assertThat(entitiesSaved.size(), is(3));
+        assertThat(entitiesSaved.get(0).getDate().getTime(), Matchers.lessThan(entitiesSaved.get(1).getDate().getTime()));
+        assertThat(entitiesSaved.get(1).getDate().getTime(), Matchers.lessThan(entitiesSaved.get(2).getDate().getTime()));
+
+    }
+
     private Date parseDate (String date){
         return formatter.parseDateTime(date).toDate();
     }
