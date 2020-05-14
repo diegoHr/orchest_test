@@ -1,6 +1,5 @@
 package com.diego.hernando.orchestTest.business;
 
-
 import com.diego.hernando.orchestTest.business.service.ImplTransformJsonCrudWorkSignService;
 import com.diego.hernando.orchestTest.configuration.Constants;
 import com.diego.hernando.orchestTest.model.WorkSignEntity;
@@ -21,7 +20,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-
 @ExtendWith(MockitoExtension.class)
 public class ImplTransformJsonCrudWorkSingServiceTest {
 
@@ -41,7 +39,6 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
             "  \"recordType\": \"IN\",\n" +
             "  \"serviceId\": \"service\",\n" +
             "  \"type\": \"WORK\"}";;
-
 
     @Test
     public void conversion_from_json_to_dto () throws Exception{
@@ -72,7 +69,6 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
         assertThat(jsonMapper.readTree(jsonMapper.writeValueAsString(dto)), is(jsonMapper.readTree(jsonDto)) );
     }
 
-
     @Test
     public void transform_json_dto_to_crud_entity () throws Exception{
         WorkSignDto dto = jsonMapper.readValue(jsonDto, WorkSignDto.class);
@@ -86,7 +82,5 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
         assertThat(entity.getType(), is(WorkSignType.WORK));
         assertThat(entity.getServiceId(), is("service"));
     }
-
-
 
 }
