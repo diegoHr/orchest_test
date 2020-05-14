@@ -1,16 +1,20 @@
 package com.diego.hernando.orchestTest.business;
 
+import com.diego.hernando.orchestTest.business.restResponse.InternalErrorRestException;
 import com.diego.hernando.orchestTest.business.restResponse.ErrorRestResponse;
 import com.diego.hernando.orchestTest.business.restResponse.IRestResponse;
 import com.diego.hernando.orchestTest.business.restResponse.OkRestResponse;
 import com.diego.hernando.orchestTest.business.service.ITransformJsonCrudWorkSignService;
+import com.diego.hernando.orchestTest.model.service.ICrudWorkSignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -23,10 +27,14 @@ public class WorkSignsController {
     private ITransformJsonCrudWorkSignService transformJsonCrudService;
 
     @Autowired
+    @Qualifier("CrudJpaWorkSignService")
+    private ICrudWorkSignService crudService;
+
+    @Autowired
     private MessageSource messageSource;
 
     @PostMapping
-    public IRestResponse saveWorkSigns (HttpServletRequest request, @RequestBody List<WorkSignDto> workSigns){
+    public IRestResponse saveWorkSigns (HttpServletRequest request, HttpServletResponse response, @RequestBody List<WorkSignDto> workSigns){
         try {
             Integer size = transformJsonCrudService.getListEntitiesSaved(workSigns).size();
             return OkRestResponse.builder().message(
@@ -35,7 +43,27 @@ public class WorkSignsController {
             String errorMessage = messageSource.getMessage("worksigns.controller.save.error", null,
                     request.getLocale());
             log.error(errorMessage,th);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return ErrorRestResponse.builder().message(errorMessage).build();
         }
+    }
+
+    @GetMapping("/{businessid}/{employeeId}")
+    public List<WorkSignDto> getWorkSigns (@PathVariable("businessid") String businessId, @PathVariable String employeeId,
+                                           HttpServletRequest request){
+        try {
+            return transformJsonCrudService.getListDto(crudService.findWorkSignsOfWorker(businessId, employeeId));
+        }catch(Throwable th){
+            throw new InternalErrorRestException(
+                    messageSource.getMessage("worksings.controller.get.persistence.error",null, request.getLocale()),
+                    th);
+        }
+    }
+
+    @ExceptionHandler(InternalErrorRestException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorRestResponse handleInternalError (InternalErrorRestException e) {
+        log.error(e.getMessage(),e);
+        return ErrorRestResponse.builder().message(e.getMessage()).build();
     }
 }

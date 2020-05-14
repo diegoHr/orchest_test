@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public interface IRestResponse {
 
-    public Status getStatus ();
-    public String getMessage ();
+    Status getStatus ();
+    String getMessage ();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public static enum Status {
+    enum Status {
         OK,ERROR
     }
 }

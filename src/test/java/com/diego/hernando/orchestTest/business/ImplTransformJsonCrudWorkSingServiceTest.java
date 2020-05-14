@@ -32,18 +32,12 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
     private ObjectMapper jsonMapper = new ObjectMapper();
 
     private long epochDate = 1577872800000L;
-    private String stringDate ="2020-01-1T10:00:00.000Z";
-    private String jsonDto = "{\"businessId\": \"1\",\n" +
-            "  \"date\": \""+stringDate+"\",\n" +
-            "  \"employeeId\": \"01\",\n" +
-            "  \"recordType\": \"IN\",\n" +
-            "  \"serviceId\": \"service\",\n" +
-            "  \"type\": \"WORK\"}";;
+    private String stringDate ="2020-01-01T10:00:00.000Z";
 
     @Test
     public void conversion_from_json_to_dto () throws Exception{
 
-        WorkSignDto dto = jsonMapper.readValue(jsonDto, WorkSignDto.class);
+        WorkSignDto dto = jsonMapper.readValue(getJsonDto(), WorkSignDto.class);
         assertThat(dto.getDate().getTime(), is(epochDate));
         assertThat(dto.getBusinessId(), is("1"));
         assertThat(dto.getEmployeeId(), is("01"));
@@ -55,7 +49,7 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
     @Test
     public void transform_crud_entity_to_json_dto () throws Exception{
         SimpleDateFormat formater = new SimpleDateFormat(Constants.PATTERN_JSON_DATE);
-        Date dateTime = formater.parse(stringDate);//formatter.parseDateTime(stringDate);
+        Date dateTime = formater.parse(stringDate);
 
         WorkSignEntity entity = WorkSignEntity.builder().employeeId("01").
                 recordType(WorkSignRecordType.IN).
@@ -66,12 +60,12 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
                 id(0L).build();
 
         WorkSignDto dto = service.getDto(entity);
-        assertThat(jsonMapper.readTree(jsonMapper.writeValueAsString(dto)), is(jsonMapper.readTree(jsonDto)) );
+        assertThat(jsonMapper.readTree(jsonMapper.writeValueAsString(dto)), is(jsonMapper.readTree(getJsonDto())));
     }
 
     @Test
     public void transform_json_dto_to_crud_entity () throws Exception{
-        WorkSignDto dto = jsonMapper.readValue(jsonDto, WorkSignDto.class);
+        WorkSignDto dto = jsonMapper.readValue(getJsonDto(), WorkSignDto.class);
         WorkSignEntity entity = service.getEntity(dto);
 
         assertThat(entity.getId(), nullValue());
@@ -83,4 +77,19 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
         assertThat(entity.getServiceId(), is("service"));
     }
 
+    @Test
+    public void check_parse_date_as_24h () throws Exception{
+        stringDate = "2020-01-01T13:00:00.000Z";
+        WorkSignDto dto = jsonMapper.readValue(getJsonDto(), WorkSignDto.class);
+        assertThat(jsonMapper.readTree(jsonMapper.writeValueAsString(dto)), is(jsonMapper.readTree(getJsonDto())));
+    }
+
+    private String getJsonDto () {
+        return "{\"businessId\": \"1\",\n" +
+                "  \"date\": \""+stringDate+"\",\n" +
+                "  \"employeeId\": \"01\",\n" +
+                "  \"recordType\": \"IN\",\n" +
+                "  \"serviceId\": \"service\",\n" +
+                "  \"type\": \"WORK\"}";
+    }
 }
