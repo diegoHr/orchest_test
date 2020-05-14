@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Qualifier("TransformJsonCrudWorkingSignService")
-public class ImplTransformJsonCrudWorkingSignService implements ITransformJsonCrudWorkSignService {
+public class ImplTransformJsonCrudWorkSignService implements ITransformJsonCrudWorkSignService {
     @Autowired
     private ICrudWorkSignService crudWorkSignService;
 
