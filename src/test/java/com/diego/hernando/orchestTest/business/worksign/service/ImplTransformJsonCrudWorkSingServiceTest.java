@@ -1,6 +1,6 @@
-package com.diego.hernando.orchestTest.business;
+package com.diego.hernando.orchestTest.business.worksign.service;
 
-import com.diego.hernando.orchestTest.business.service.ImplTransformJsonCrudWorkSignService;
+import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.configuration.Constants;
 import com.diego.hernando.orchestTest.model.WorkSignEntity;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;

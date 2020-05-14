@@ -1,10 +1,10 @@
-package com.diego.hernando.orchestTest.business;
+package com.diego.hernando.orchestTest.business.worksign;
 
 import com.diego.hernando.orchestTest.business.restResponse.InternalErrorRestException;
 import com.diego.hernando.orchestTest.business.restResponse.ErrorRestResponse;
 import com.diego.hernando.orchestTest.business.restResponse.IRestResponse;
 import com.diego.hernando.orchestTest.business.restResponse.OkRestResponse;
-import com.diego.hernando.orchestTest.business.service.ITransformJsonCrudWorkSignService;
+import com.diego.hernando.orchestTest.business.worksign.service.ITransformJsonCrudWorkSignService;
 import com.diego.hernando.orchestTest.model.service.ICrudWorkSignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

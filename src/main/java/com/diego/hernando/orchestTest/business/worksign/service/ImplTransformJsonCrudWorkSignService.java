@@ -1,6 +1,6 @@
-package com.diego.hernando.orchestTest.business.service;
+package com.diego.hernando.orchestTest.business.worksign.service;
 
-import com.diego.hernando.orchestTest.business.WorkSignDto;
+import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.model.WorkSignEntity;
 import com.diego.hernando.orchestTest.model.service.ICrudWorkSignService;
 import org.springframework.beans.factory.annotation.Autowired;
