@@ -6,17 +6,19 @@ import com.diego.hernando.orchestTest.business.worksign.WorkSignOperationsServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class IncompleteWorkDayAlarmCheckerService implements IAlarmCheckerService {
 
-    @Autowired
     private WorkSignOperationsService workSignOpSrv;
+
+    @Autowired
+    public IncompleteWorkDayAlarmCheckerService(WorkSignOperationsService workSignOpSrv) {
+        this.workSignOpSrv = workSignOpSrv;
+    }
 
     @Override
     public String getKeyDescription() {
@@ -50,28 +52,41 @@ public class IncompleteWorkDayAlarmCheckerService implements IAlarmCheckerServic
 
             if(i == 0){
                 optionalAlarmIncompleteFirstWSign(previousWorkSign, lastPreviousDayWorkSign).ifPresent(alarms::add);
-            }else if(i >= workSignDtos.size() - 2){
-                optionalAlarmIncompleteLastWSign(nextWorkSign, firstLaterDayWorkSignsOfWork).ifPresent(alarms::add);
-            }else{
-                optionalAlarmIncompleteWSign(previousWorkSign, nextWorkSign).ifPresent(alarms::add);
             }
+            if(i >= workSignDtos.size() - 2){
+                optionalAlarmIncompleteLastWSign(nextWorkSign, firstLaterDayWorkSignsOfWork).ifPresent(alarms::add);
+            }
+
+            optionalAlarmIncompleteWSign(previousWorkSign, nextWorkSign).ifPresent(alarms::add);
         }
         return alarms;
     }
 
-    private Optional<Alarm> optionalAlarmIncompleteLastWSign(WorkSignDto lastWorkSign, WorkSignDto firstLaterDayWorkSignsOfWork) {
+    protected Optional<Alarm> optionalAlarmIncompleteLastWSign(WorkSignDto lastWorkSign, WorkSignDto firstLaterDayWorkSignsOfWork) {
         if(!(firstLaterDayWorkSignsOfWork != null
-                && checkIfLastWSignIsInRTypeAndIsComplete(lastWorkSign, firstLaterDayWorkSignsOfWork))){
-            return Optional.of(new Alarm(Arrays.asList(lastWorkSign, firstLaterDayWorkSignsOfWork),getKeyDescription(), null));
+                && checkIfLastWSignIsInRTypeAndIsComplete(lastWorkSign, firstLaterDayWorkSignsOfWork)
+                || workSignOpSrv.isOutRecordTypeWSign(lastWorkSign))){
+            return Optional.of(new Alarm(
+                    Stream.of(lastWorkSign, firstLaterDayWorkSignsOfWork).filter(Objects::nonNull)
+                            .collect(Collectors.toList()),
+                    getKeyDescription(),
+                    null)
+            );
         }
         return Optional.empty();
     }
 
     protected Optional<Alarm> optionalAlarmIncompleteFirstWSign(WorkSignDto workSignDto, WorkSignDto lastPreviousDayWorkSign){
         if(!(lastPreviousDayWorkSign != null
-                && checkIfFirstWSignIsOutRTypeAndIsComplete(workSignDto, lastPreviousDayWorkSign)
+                && checkIfFirstWSignIsOutRTypeAndIsComplete(workSignDto, lastPreviousDayWorkSign) || workSignOpSrv.isInRecordTypeWSign(workSignDto)
         )){
-            return Optional.of(new Alarm(Arrays.asList(lastPreviousDayWorkSign,workSignDto), getKeyDescription(), null));
+            return Optional.of(
+                    new Alarm(
+                            Stream.of(lastPreviousDayWorkSign,workSignDto).filter(Objects::nonNull)
+                                    .collect(Collectors.toList()),
+                            getKeyDescription(),
+                            null
+                    ));
         }
         return Optional.empty();
     }
@@ -85,17 +100,17 @@ public class IncompleteWorkDayAlarmCheckerService implements IAlarmCheckerServic
     }
 
     private boolean checkIfLastWSignIsInRTypeAndIsComplete(WorkSignDto lastWorkSign, WorkSignDto firstLaterDayWorkSignsOfWork) {
-        return workSignOpSrv.isInRecordTypeWorkSign(lastWorkSign) &&  workSignOpSrv.isOutRecordTypeWorkSign(firstLaterDayWorkSignsOfWork);
+        return workSignOpSrv.isInRecordTypeWSign(lastWorkSign) &&  workSignOpSrv.isOutRecordTypeWSign(firstLaterDayWorkSignsOfWork);
     }
 
     private boolean checkIfFirstWSignIsOutRTypeAndIsComplete(WorkSignDto firstWorkSignOfDay, WorkSignDto yesterdayLastWorkSign){
-        return workSignOpSrv.isOutRecordTypeWorkSign(firstWorkSignOfDay) &&  workSignOpSrv.isInRecordTypeWorkSign(yesterdayLastWorkSign);
+        return workSignOpSrv.isOutRecordTypeWSign(firstWorkSignOfDay) &&  workSignOpSrv.isInRecordTypeWSign(yesterdayLastWorkSign);
     }
     private boolean checkIfPreviousWSignIsOutNextWSignIsIn(WorkSignDto previousWorkSign, WorkSignDto nextWorkSign){
-        return workSignOpSrv.isOutRecordTypeWorkSign(previousWorkSign) && workSignOpSrv.isInRecordTypeWorkSign(nextWorkSign);
+        return workSignOpSrv.isOutRecordTypeWSign(previousWorkSign) && workSignOpSrv.isInRecordTypeWSign(nextWorkSign);
     }
 
     private boolean checkIfPreviousWSignIsInNextWSignIsOut(WorkSignDto previousWorkSign, WorkSignDto nextWorkSign){
-        return workSignOpSrv.isInRecordTypeWorkSign(previousWorkSign) && workSignOpSrv.isOutRecordTypeWorkSign(nextWorkSign);
+        return workSignOpSrv.isInRecordTypeWSign(previousWorkSign) && workSignOpSrv.isOutRecordTypeWSign(nextWorkSign);
     }
 }

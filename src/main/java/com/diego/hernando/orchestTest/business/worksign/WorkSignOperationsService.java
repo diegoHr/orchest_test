@@ -21,11 +21,11 @@ public class WorkSignOperationsService {
         return PREDICATE_IS_WORK_TYPE_WORKSIGN;
     }
 
-    public boolean isInRecordTypeWorkSign (WorkSignDto dto){
+    public boolean isInRecordTypeWSign(WorkSignDto dto){
         return dto.getRecordType() == WorkSignRecordType.IN;
     }
 
-    public boolean isOutRecordTypeWorkSign (WorkSignDto dto){
+    public boolean isOutRecordTypeWSign(WorkSignDto dto){
         return dto.getRecordType() == WorkSignRecordType.OUT;
     }
 
@@ -37,24 +37,24 @@ public class WorkSignOperationsService {
         return dto.getType() == WorkSignType.REST;
     }
 
-    public boolean isInRecordTypeAndWorkTypeWorkSign(WorkSignDto dto){
-        return isInRecordTypeWorkSign(dto)
+    public boolean isInRecordTypeAndWorkTypeWSign(WorkSignDto dto){
+        return isInRecordTypeWSign(dto)
                 && isWorkTypeWorkSign(dto);
     }
 
-    public boolean isOutRecordTypeAndWorkTypeWorkSign(WorkSignDto dto){
-        return isOutRecordTypeWorkSign(dto)
+    public boolean isOutRecordTypeAndWorkTypeWSign(WorkSignDto dto){
+        return isOutRecordTypeWSign(dto)
                 && isWorkTypeWorkSign(dto);
     }
 
-    public boolean isInRecordTypeAndRestTypeWorkSign(WorkSignDto dto){
-        return isInRecordTypeWorkSign(dto)
+    public boolean isInRecordTypeAndRestTypeWSign(WorkSignDto dto){
+        return isInRecordTypeWSign(dto)
                 && isRestTypeWorkSign(dto);
     }
 
-    public boolean isOutRecordTypeAndRestTypeWorkSign(WorkSignDto dto){
-        return isOutRecordTypeWorkSign(dto)
-                && isOutRecordTypeWorkSign(dto);
+    public boolean isOutRecordTypeAndRestTypeWSign(WorkSignDto dto){
+        return isOutRecordTypeWSign(dto)
+                && isRestTypeWorkSign(dto);
     }
 
 }
