@@ -18,9 +18,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import static com.diego.hernando.orchestTest.DefaultDateTimeFormatter.parseDate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.hamcrest.Matchers.is;
@@ -87,8 +87,29 @@ public class ImplCrudJpaWorkSignServiceITest {
         assertThat(service.findById(1L).isPresent(), is(false));
     }
 
+
     @Test
-    public void save_disordered_list_of_worker_and_recover_ordered (){
+    public void get_ordered_list_of_workSigns_between_two_dates (){
+        service.save(builderEntity.build());
+        service.save(builderEntity.date(parseDate("1/05/2020 16:20:20")).build());
+        service.save(builderEntity.date(parseDate("29/04/2020 16:20:20")).build());
+        service.save(builderEntity.date(parseDate("23/05/2020 16:20:20")).build());
+        service.save(builderEntity.date(parseDate("21/05/2020 16:20:20")).build());
+        service.save(builderEntity.date(parseDate("29/05/2020 16:20:20")).build());
+
+        List<WorkSignEntity> wSignsOrderedBetweenTwoDates = service.findEmployeeWorkSignsBetweenTwoDates(defaultBusinessId,
+                "01", parseDate("1/05/2020 00:00:00"), parseDate("29/05/2020 00:00:00"));
+
+        assertThat(wSignsOrderedBetweenTwoDates.size(), is(4));
+        assertThat(wSignsOrderedBetweenTwoDates.get(0).getDate(), is(parseDate("1/05/2020 16:20:20")));
+        assertThat(wSignsOrderedBetweenTwoDates.get(1).getDate(), is(parseDate(defaultDate)));
+        assertThat(wSignsOrderedBetweenTwoDates.get(2).getDate(), is(parseDate("21/05/2020 16:20:20")));
+        assertThat(wSignsOrderedBetweenTwoDates.get(3).getDate(), is(parseDate("23/05/2020 16:20:20")));
+    }
+
+
+    @Test
+    public void save_disordered_list_of_workSigns_and_recover_ordered (){
         List<WorkSignEntity> entitiesToSave = new ArrayList<>(3);
         DateTime date = new DateTime(parseDate(defaultDate));
 
@@ -102,11 +123,6 @@ public class ImplCrudJpaWorkSignServiceITest {
         assertThat(entitiesSaved.size(), is(3));
         assertThat(entitiesSaved.get(0).getDate().getTime(), Matchers.lessThan(entitiesSaved.get(1).getDate().getTime()));
         assertThat(entitiesSaved.get(1).getDate().getTime(), Matchers.lessThan(entitiesSaved.get(2).getDate().getTime()));
-
-    }
-
-    private Date parseDate (String date){
-        return formatter.parseDateTime(date).toDate();
     }
 
 

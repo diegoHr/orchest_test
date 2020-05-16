@@ -38,9 +38,14 @@ public class ImplCrudJpaWorkSignService implements ICrudWorkSignService {
     }
 
     @Override
-    public List<WorkSignEntity> findWorkSignsOfWorker(String businessId, String workerId) {
-        return repository.findByBusinessIdAndEmployeeIdOrderByDateAsc(businessId, workerId);
+    public List<WorkSignEntity> findWorkSignsOfWorker(String businessId, String employeeId) {
+        return repository.findByBusinessIdAndEmployeeIdOrderByDateAsc(businessId, employeeId);
     }
 
+    @Override
+    public List<WorkSignEntity> findEmployeeWorkSignsBetweenTwoDates(String businessId, String employeeId,
+                                                                     Date startDate, Date finishDate) {
+        return repository.findEmployeeWorkSignBetweenTwoDates(businessId, employeeId, startDate, finishDate);
+    }
 
 }

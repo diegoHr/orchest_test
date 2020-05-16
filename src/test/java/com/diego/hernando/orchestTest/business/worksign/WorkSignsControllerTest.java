@@ -1,8 +1,7 @@
 package com.diego.hernando.orchestTest.business.worksign;
 
 import com.diego.hernando.orchestTest.business.restResponse.ErrorRestResponse;
-import com.diego.hernando.orchestTest.business.worksign.service.ImplTransformJsonCrudWorkSignService;
-import com.diego.hernando.orchestTest.business.worksign.WorkSignsController;
+import com.diego.hernando.orchestTest.business.worksign.service.transformWorkSignService.ImplTransformJsonCrudWorkSignService;
 import com.diego.hernando.orchestTest.model.service.ImplCrudJpaWorkSignService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

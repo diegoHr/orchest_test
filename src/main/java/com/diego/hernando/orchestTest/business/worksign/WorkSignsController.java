@@ -4,7 +4,7 @@ import com.diego.hernando.orchestTest.business.restResponse.InternalErrorRestExc
 import com.diego.hernando.orchestTest.business.restResponse.ErrorRestResponse;
 import com.diego.hernando.orchestTest.business.restResponse.IRestResponse;
 import com.diego.hernando.orchestTest.business.restResponse.OkRestResponse;
-import com.diego.hernando.orchestTest.business.worksign.service.ITransformJsonCrudWorkSignService;
+import com.diego.hernando.orchestTest.business.worksign.service.transformWorkSignService.ITransformJsonCrudWorkSignService;
 import com.diego.hernando.orchestTest.model.service.ICrudWorkSignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

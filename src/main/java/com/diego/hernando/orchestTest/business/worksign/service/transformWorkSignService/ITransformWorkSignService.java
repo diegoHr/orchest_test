@@ -1,4 +1,4 @@
-package com.diego.hernando.orchestTest.business.worksign.service;
+package com.diego.hernando.orchestTest.business.worksign.service.transformWorkSignService;
 
 import java.util.List;
 
@@ -28,6 +28,4 @@ public interface ITransformWorkSignService<D,E> {
     List<E> getListEntities (List<D> dtos);
 
     List<E> getListEntitiesSaved (List<D> dtos);
-
-
 }

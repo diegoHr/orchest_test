@@ -1,5 +1,7 @@
-package com.diego.hernando.orchestTest.business.worksign;
+package com.diego.hernando.orchestTest.business.worksign.service;
 
+import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
+import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
 import com.diego.hernando.orchestTest.model.WorkSignType;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package com.diego.hernando.orchestTest.business.weekReport.alarm.checker;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
-import com.diego.hernando.orchestTest.business.worksign.WorkSignOperationsService;
+import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

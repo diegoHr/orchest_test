@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(indexes = {@Index(name = "dateOrderedIndex",  columnList="date")})
+@Table(indexes = {@Index(name = "dateOrderedIndex",  columnList="date"), @Index(name = "employeeIndexCompound", columnList= "businessId,employeeId")})
 public class WorkSignEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
