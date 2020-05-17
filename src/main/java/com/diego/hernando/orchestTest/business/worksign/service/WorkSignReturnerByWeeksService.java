@@ -1,5 +1,6 @@
 package com.diego.hernando.orchestTest.business.worksign.service;
 
+import com.diego.hernando.orchestTest.business.DateOperationsService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.transformWorkSignService.ITransformJsonCrudWorkSignService;
 import com.diego.hernando.orchestTest.model.service.ICrudWorkSignService;
@@ -23,22 +24,26 @@ public class WorkSignReturnerByWeeksService {
 
     private final WorkSignOperationsService wSignOpSrv;
 
+    private final DateOperationsService dateOpSrv;
+
     @Autowired
     public WorkSignReturnerByWeeksService(@Qualifier("CrudJpaWorkSignService") ICrudWorkSignService crudWSignService,
                                           @Qualifier("TransformJsonCrudWorkingSignService")
                                                     ITransformJsonCrudWorkSignService transJsonCrudWSignSrv,
-                                          WorkSignOperationsService wSignOpSrv) {
+                                          WorkSignOperationsService wSignOpSrv,
+                                          DateOperationsService dateOpSrv) {
         this.crudWSignService = crudWSignService;
         this.transJsonCrudWSignSrv = transJsonCrudWSignSrv;
         this.wSignOpSrv = wSignOpSrv;
+        this.dateOpSrv = dateOpSrv;
     }
 
     public List<WorkSignDto> getEmployeeWSignsOfWeek (String businessId, String employeeId, int week){
-        return getEmployeeWSingsOfWeek(businessId, employeeId, transformWeekToInitWeekDate(week));
+        return getEmployeeWSingsOfWeek(businessId, employeeId, dateOpSrv.transformWeekToInitWeekDate(week));
     }
 
-    protected List<WorkSignDto> getEmployeeWSingsOfWeek(String businessId, String employeeId, Date initWeek){
-        Date endWeekDate = getEndWeekDateFromInitWeekDate(initWeek);
+    public List<WorkSignDto> getEmployeeWSingsOfWeek(String businessId, String employeeId, Date initWeek){
+        Date endWeekDate = dateOpSrv.getEndWeekDateFromInitWeekDate(initWeek);
         List<WorkSignDto> wSigns = transJsonCrudWSignSrv.getListDto(
                 crudWSignService.findEmployeeWorkSignsBetweenTwoDates(
                         businessId,
@@ -53,23 +58,6 @@ public class WorkSignReturnerByWeeksService {
         return deleteIncompleteEndWeekWSigns(wSigns,endWeekDate);
     }
 
-    protected DateTime getNow () {
-        return DateTime.now();
-    }
-
-    protected Date transformWeekToInitWeekDate (int week){
-        return getNow().minusWeeks(week).withDayOfWeek(1).withHourOfDay(0)
-                .withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
-    }
-
-    protected Date getEndWeekDateFromInitWeekDate(Date initDateWeek){
-        return new DateTime(initDateWeek).withDayOfWeek(7).withHourOfDay(23)
-                .withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).toDate();
-    }
-
-    protected Date getInitPreviousDate (Date initWeekDate){
-        return new DateTime(initWeekDate).minusDays(1).toDate();
-    }
 
 
     protected Optional<WorkSignDto> getLastWorkInDayWsign (List<WorkSignDto> wSigns){
@@ -84,7 +72,7 @@ public class WorkSignReturnerByWeeksService {
                 crudWSignService.findEmployeeWorkSignsBetweenTwoDates(
                         businessId,
                         employeeId,
-                        getInitPreviousDate(initWeek),
+                        dateOpSrv.getInitPreviousDate(initWeek),
                         new Date(initWeek.getTime()-1))
         );
         return getIncompleteWSignsOfDay(wSignsPreviousDay);

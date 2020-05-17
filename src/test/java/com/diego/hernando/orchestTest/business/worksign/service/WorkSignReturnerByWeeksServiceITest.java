@@ -1,5 +1,6 @@
 package com.diego.hernando.orchestTest.business.worksign.service;
 
+import com.diego.hernando.orchestTest.business.DateOperationsService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.transformWorkSignService.ITransformJsonCrudWorkSignService;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,15 +43,17 @@ public class WorkSignReturnerByWeeksServiceITest {
     @Autowired
     private ITransformJsonCrudWorkSignService transJsonCrudWSignSrv;
 
-    private WorkSignDto.WorkSignDtoBuilder builderBaseDto = WorkSignDto.builder().type(WorkSignType.WORK).recordType(WorkSignRecordType.IN)
+    @Spy
+    private DateOperationsService dateOpSrv;
+
+
+    private final WorkSignDto.WorkSignDtoBuilder builderBaseDto = WorkSignDto.builder().type(WorkSignType.WORK).recordType(WorkSignRecordType.IN)
             .employeeId("01").businessId("1").serviceId("service").date(parseDate("03/05/2020 00:00:00"));
 
     @BeforeEach
     public void setUp() {
-        wSignRetByWeekSrv = Mockito.spy(
-                new WorkSignReturnerByWeeksService(crudWorkSignService, transJsonCrudWSignSrv, wSignOpSrv)
-        );
-        Mockito.when(wSignRetByWeekSrv.getNow()).thenReturn(parseDateTime("05/05/2020 10:30:00"));
+        wSignRetByWeekSrv = new WorkSignReturnerByWeeksService(crudWorkSignService, transJsonCrudWSignSrv, wSignOpSrv, dateOpSrv);
+        Mockito.when(dateOpSrv.getNow()).thenReturn(parseDateTime("05/05/2020 10:30:00"));
     }
 
     @Test
@@ -57,7 +61,7 @@ public class WorkSignReturnerByWeeksServiceITest {
         addTestWSignsOfIncompleteDay();
         List<WorkSignDto> incompWSignsPrevDayWeek = wSignRetByWeekSrv
                 .getIncompleteWSignsOfPreviousDayOfWeek("1", "01",
-                        wSignRetByWeekSrv.transformWeekToInitWeekDate(0));
+                        dateOpSrv.transformWeekToInitWeekDate(0));
 
         assertThat(incompWSignsPrevDayWeek.size(), is(1));
         assertThat(incompWSignsPrevDayWeek.get(0), is(builderBaseDto.date(parseDate("03/05/2020 10:30:00"))
@@ -69,7 +73,7 @@ public class WorkSignReturnerByWeeksServiceITest {
         addTestWsingsOfCompleteDay();
         List<WorkSignDto> compWSignsPrevDayWeek = wSignRetByWeekSrv
                 .getIncompleteWSignsOfPreviousDayOfWeek("1", "01",
-                        wSignRetByWeekSrv.transformWeekToInitWeekDate(0));
+                        dateOpSrv.transformWeekToInitWeekDate(0));
 
         assertThat(compWSignsPrevDayWeek.size(), is(0));
     }
@@ -301,7 +305,7 @@ public class WorkSignReturnerByWeeksServiceITest {
                 .recordType(WorkSignRecordType.OUT).build());
     }
 
-    private void addTestWSignsOfIncompleteDay () throws Exception{
+    private void addTestWSignsOfIncompleteDay () {
         transJsonCrudWSignSrv.getListEntitiesSaved(Arrays.asList(
                 builderBaseDto.build(),
                 builderBaseDto.date(parseDate("03/05/2020 05:00:00")).type(WorkSignType.REST)
