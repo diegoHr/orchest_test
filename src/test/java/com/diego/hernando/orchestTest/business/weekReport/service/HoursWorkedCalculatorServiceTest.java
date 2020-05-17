@@ -1,6 +1,5 @@
-package com.diego.hernando.orchestTest.business.weekReport;
+package com.diego.hernando.orchestTest.business.weekReport.service;
 
-import com.diego.hernando.orchestTest.business.weekReport.service.HoursWorkedCalculatorService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
@@ -40,8 +39,4 @@ public class HoursWorkedCalculatorServiceTest {
 
         assertThat(hoursWCalSrv.calculateHoursWorked(wSigns), is(8D));
     }
-
-
-
-
 }

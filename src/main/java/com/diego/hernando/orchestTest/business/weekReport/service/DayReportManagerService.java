@@ -15,15 +15,19 @@ import java.util.stream.Collectors;
 @Service
 public class DayReportManagerService {
 
+    private final DateOperationsService dateOpSrv;
+
     @Autowired
-    private DateOperationsService dateOpSrv;
+    public DayReportManagerService(DateOperationsService dateOpSrv) {
+        this.dateOpSrv = dateOpSrv;
+    }
 
     public List<DayReportDto> getDayReportsFromWSignsOfWeek (List<WorkSignDto> weekWsigns){
         if(weekWsigns.size() == 0){
             return new ArrayList<>();
         }
         Date initDate = weekWsigns.get(0).getDate();
-        Date finishDate = weekWsigns.get(0).getDate();
+        Date finishDate = weekWsigns.get(weekWsigns.size()-1).getDate();
         int days = dateOpSrv.daysBetweenTwoDates(initDate, finishDate) + 1 ;
         List<DayReportDto> dayReportDtos = new ArrayList<>(days);
         DateTime finishDay = new DateTime(dateOpSrv.getFinishDayFromDate(initDate));
@@ -41,7 +45,6 @@ public class DayReportManagerService {
                 dayReportDtos.add(new DayReportDto(initDay.plusDays(i).toDate(), dayWSigns));
             }
         }
-
         return dayReportDtos;
     }
 
