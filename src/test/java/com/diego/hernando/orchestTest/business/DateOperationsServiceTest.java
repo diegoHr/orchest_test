@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
-import static com.diego.hernando.orchestTest.DefaultDateTimeFormatter.parseDateTime;
+import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDateTime;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.diego.hernando.orchestTest.DefaultDateTimeFormatter.parseDate;
+import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;

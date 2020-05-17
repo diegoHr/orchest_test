@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.diego.hernando.orchestTest.DefaultDateTimeFormatter.parseDate;
+import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.hamcrest.Matchers.is;

@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.diego.hernando.orchestTest.DefaultDateTimeFormatter.parseDate;
-import static com.diego.hernando.orchestTest.DefaultDateTimeFormatter.parseDateTime;
+import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDate;
+import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDateTime;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

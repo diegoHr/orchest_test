@@ -1,46 +1,25 @@
-package com.diego.hernando.orchestTest.business.weekReport.alarm.checker;
+package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.helper;
 
-import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class IncompleteWSignAlarmCheckerService implements IWeeklyAlarmCheckerWeeklyService {
+public class IncompleteWSignsOperationsService {
 
-    private WorkSignOperationsService workSignOpSrv;
+    private final WorkSignOperationsService workSignOpSrv;
 
     @Autowired
-    public IncompleteWSignAlarmCheckerService(WorkSignOperationsService workSignOpSrv) {
+    public IncompleteWSignsOperationsService(WorkSignOperationsService workSignOpSrv) {
         this.workSignOpSrv = workSignOpSrv;
     }
 
-    @Override
-    public String getKeyDescription() {
-        return "alarm.checker.incomplete.worksign";
-    }
-
-    @Override
-    public List<Alarm> check(List<WorkSignDto> workSignsToCheck) {
-
-        List<WorkSignDto> workSignsOfWork = workSignsToCheck.stream()
-                .filter(workSignOpSrv::isWorkTypeWorkSign).collect(Collectors.toList());
-        List<WorkSignDto> wSignsTrigeredAlarm = extractIncompleteWSigns(workSignsOfWork);
-
-        return Arrays.asList(new Alarm(wSignsTrigeredAlarm,getKeyDescription(),new Object[]{wSignsTrigeredAlarm.size()}, getLevel()));
-    }
-
-    @Override
-    public AlarmLevel getLevel() {
-        return AlarmLevel.ERROR;
-    }
-
-    protected List<WorkSignDto> extractIncompleteWSigns(List<WorkSignDto> workSignDtos){
+    public List<WorkSignDto> extractIncompleteWSigns(List<WorkSignDto> workSignDtos){
         List<WorkSignDto> incompleteWSigns = new ArrayList<>();
         getFirstWSignIfIsIncomplete(workSignDtos).ifPresent(incompleteWSigns::add);
         for(int i = 0; i < workSignDtos.size()-1; i++){
@@ -74,5 +53,4 @@ public class IncompleteWSignAlarmCheckerService implements IWeeklyAlarmCheckerWe
             return Optional.empty();
         }
     }
-
 }

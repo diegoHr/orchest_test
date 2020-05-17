@@ -1,4 +1,4 @@
-package com.diego.hernando.orchestTest;
+package com.diego.hernando.orchestTest.testUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -17,9 +17,5 @@ public class DefaultDateTimeFormatter {
     public static DateTime parseDateTime (String date){
         return formatter.parseDateTime(date);
     }
-
-
-
-
 
 }
