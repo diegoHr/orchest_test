@@ -11,13 +11,13 @@ import java.util.Locale;
 @Data
 @AllArgsConstructor
 public class Alarm {
-
     private List<WorkSignDto> workSignsTriggeredAlarm;
     private String keyDescription;
     private Object[] descriptionParams;
+    private AlarmLevel alarmLevel;
 
     public AlarmDto getDto (MessageSource messageSource, Locale locale){
-        return new AlarmDto(workSignsTriggeredAlarm,messageSource.getMessage(keyDescription, descriptionParams, locale));
+        return new AlarmDto(workSignsTriggeredAlarm,messageSource.getMessage(keyDescription, descriptionParams, locale), alarmLevel);
     }
 
 

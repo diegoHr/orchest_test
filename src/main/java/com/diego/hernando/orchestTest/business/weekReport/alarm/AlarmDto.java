@@ -11,5 +11,6 @@ import java.util.List;
 public class AlarmDto {
     private List<WorkSignDto> workSignsTriggeredAlarm;
     private String description;
+    private AlarmLevel level;
 
 }

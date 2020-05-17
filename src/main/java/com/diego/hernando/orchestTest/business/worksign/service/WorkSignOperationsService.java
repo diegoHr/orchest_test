@@ -5,22 +5,8 @@ import com.diego.hernando.orchestTest.model.WorkSignRecordType;
 import com.diego.hernando.orchestTest.model.WorkSignType;
 import org.springframework.stereotype.Service;
 
-import java.util.function.Predicate;
-
 @Service
 public class WorkSignOperationsService {
-
-    private final Predicate<WorkSignDto> PREDICATE_IS_WORK_TYPE_WORKSIGN = new Predicate<WorkSignDto>(){
-
-        @Override
-        public boolean test(WorkSignDto dto) {
-            return isWorkTypeWorkSign(dto);
-        }
-    };
-
-    public Predicate<WorkSignDto> getPredicateIsWorkTypeWorkSign () {
-        return PREDICATE_IS_WORK_TYPE_WORKSIGN;
-    }
 
     public boolean isInRecordTypeWSign(WorkSignDto dto){
         return dto.getRecordType() == WorkSignRecordType.IN;

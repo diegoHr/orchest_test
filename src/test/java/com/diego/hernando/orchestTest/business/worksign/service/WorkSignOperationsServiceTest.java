@@ -17,16 +17,6 @@ public class WorkSignOperationsServiceTest {
     private WorkSignDto.WorkSignDtoBuilder builderDto = WorkSignDto.builder().businessId("01").employeeId("1")
             .date(new Date()).serviceId("service");
 
-    @Test
-    public void filter_three_wSings_only_two_of_them_are_WORK_type (){
-        assertThat(Stream.of(
-                builderDto.type(WorkSignType.WORK).build(),
-                builderDto.type(WorkSignType.WORK).build(),
-                builderDto.type(WorkSignType.REST).build()
-                ).filter(wSignOpSrv.getPredicateIsWorkTypeWorkSign()).count()
-                ,is(2L)
-        );
-    }
 
     @Test
     public void true_when_dto_rType_is_IN_with_isInRecordTypeWorkSign () {
