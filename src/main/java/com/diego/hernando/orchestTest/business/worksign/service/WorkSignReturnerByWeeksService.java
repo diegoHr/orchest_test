@@ -32,23 +32,6 @@ public class WorkSignReturnerByWeeksService {
         this.transJsonCrudWSignSrv = transJsonCrudWSignSrv;
         this.wSignOpSrv = wSignOpSrv;
     }
-    protected DateTime getNow () {
-        return DateTime.now();
-    }
-
-    public Date transformWeekToInitWeekDate (int week){
-        return getNow().minusWeeks(week).withDayOfWeek(1).withHourOfDay(0)
-                .withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
-    }
-
-    public Date getEndWeekDateFromInitWeekDate(Date initDateWeek){
-        return new DateTime(initDateWeek).withDayOfWeek(7).withHourOfDay(23)
-                .withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).toDate();
-    }
-
-    public Date getInitPreviousDate (Date initWeekDate){
-        return new DateTime(initWeekDate).minusDays(1).toDate();
-    }
 
     public List<WorkSignDto> getEmployeeWSignsOfWeek (String businessId, String employeeId, int week){
         return getEmployeeWSingsOfWeek(businessId, employeeId, transformWeekToInitWeekDate(week));
@@ -69,6 +52,25 @@ public class WorkSignReturnerByWeeksService {
         }
         return deleteIncompleteEndWeekWSigns(wSigns,endWeekDate);
     }
+
+    protected DateTime getNow () {
+        return DateTime.now();
+    }
+
+    protected Date transformWeekToInitWeekDate (int week){
+        return getNow().minusWeeks(week).withDayOfWeek(1).withHourOfDay(0)
+                .withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
+    }
+
+    protected Date getEndWeekDateFromInitWeekDate(Date initDateWeek){
+        return new DateTime(initDateWeek).withDayOfWeek(7).withHourOfDay(23)
+                .withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).toDate();
+    }
+
+    protected Date getInitPreviousDate (Date initWeekDate){
+        return new DateTime(initWeekDate).minusDays(1).toDate();
+    }
+
 
     protected Optional<WorkSignDto> getLastWorkInDayWsign (List<WorkSignDto> wSigns){
         return wSigns.stream().filter(wSignOpSrv::isInRecordTypeAndWorkTypeWSign)
