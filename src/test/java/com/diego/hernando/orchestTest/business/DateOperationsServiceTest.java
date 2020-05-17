@@ -1,5 +1,6 @@
 package com.diego.hernando.orchestTest.business;
 
+import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -48,6 +49,45 @@ public class DateOperationsServiceTest {
         Date expectedLastDate2 = parseDateTime("12/07/2020 23:59:59").withMillisOfSecond(999).toDate();
         assertThat( dateOpService.getEndWeekDateFromInitWeekDate(initDate2).getTime(),
                 is(expectedLastDate2.getTime()));
+
+    }
+
+    @Test
+    public void test_daysBetweenTwoDates () {
+        Date initDate1 = parseDateTime("04/05/2020 10:10:30").withMillisOfSecond(133).toDate();
+        Date initDate2 = parseDateTime("05/05/2020 00:10:30").withMillisOfSecond(133).toDate();
+        assertThat(dateOpService.daysBetweenTwoDates(initDate1, initDate2), is(1));
+        assertThat(dateOpService.daysBetweenTwoDates(initDate2, initDate1), is(1));
+
+        initDate2 = parseDateTime("05/05/2020 23:59:59").toDate();
+        assertThat(dateOpService.daysBetweenTwoDates(initDate1, initDate2), is(1));
+        assertThat(dateOpService.daysBetweenTwoDates(initDate2, initDate1), is(1));
+    }
+
+    @Test
+    public void test_isDateBetweenTwoDates () {
+        DateTime date1 = parseDateTime("04/05/2020 10:10:30").withMillisOfSecond(133);
+        DateTime date2 = parseDateTime("05/05/2020 00:10:30").withMillisOfSecond(133);
+        Date date = parseDateTime("05/05/2020 00:09:30").withMillisOfSecond(133).toDate();
+
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date1, date2), is(true));
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date2, date1), is(true));
+
+        date = parseDateTime("05/05/2020 10:09:30").withMillisOfSecond(133).toDate();
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date1, date2), is(false));
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date2, date1), is(false));
+
+        date = parseDateTime("04/05/2020 10:09:30").withMillisOfSecond(133).toDate();
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date1, date2), is(false));
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date2, date1), is(false));
+
+        date = date1.toDate();
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date1, date2), is(true));
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date2, date1), is(true));
+
+        date = date2.toDate();
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date1, date2), is(true));
+        assertThat(dateOpService.isDateBetweenTwoDates(date, date2, date1), is(true));
 
     }
 

@@ -25,7 +25,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.hamcrest.Matchers.is;
 
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -46,7 +45,6 @@ public class ImplCrudJpaWorkSignServiceITest {
             .recordType(WorkSignRecordType.IN)
             .serviceId("phone")
             .type(WorkSignType.WORK);
-
 
     @Test
     public void save_and_recover_ok_workSignEntities (){

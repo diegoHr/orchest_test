@@ -1,4 +1,4 @@
-package com.diego.hernando.orchestTest.business.weekReport;
+package com.diego.hernando.orchestTest.business.weekReport.service;
 
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;

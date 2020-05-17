@@ -1,5 +1,6 @@
 package com.diego.hernando.orchestTest.business.weekReport;
 
+import com.diego.hernando.orchestTest.business.weekReport.service.HoursWorkedCalculatorService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
