@@ -21,7 +21,7 @@ public class LimitMinimumInitWorkHourAlarmChecker implements IDailyAlarmCheckerS
 
     private final DateOperationsService dateOpsSrv;
 
-    private final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern(Constants.PATTERN_SIMPLE_HOUR);
+    private final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern(Constants.PATTERN_SIMPLE_HOUR_JODA);
     protected final List<DateTime> limitMinInitHourByDayWeek = Arrays.asList(
             dateFormatter.parseDateTime("08:00"),
             dateFormatter.parseDateTime("08:00"),
