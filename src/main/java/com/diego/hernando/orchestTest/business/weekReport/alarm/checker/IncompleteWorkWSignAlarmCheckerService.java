@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class IncompleteWorkWSignAlarmCheckerService implements IWeeklyAlarmCheckerWeeklyService {
+public class IncompleteWorkWSignAlarmCheckerService implements IWeeklyAlarmCheckerService {
 
     private final WorkSignOperationsService workSignOpSrv;
     private final IncompleteWSignsOperationsService incompleteWSignOpSrv;

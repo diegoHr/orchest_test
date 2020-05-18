@@ -48,5 +48,4 @@ public class DayReportManagerService {
         return dayReportDtos;
     }
 
-
 }

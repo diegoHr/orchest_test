@@ -2,7 +2,7 @@ package com.diego.hernando.orchestTest.business.weekReport.alarm;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.IAlarmCheckerService;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.IDailyAlarmCheckerService;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.IWeeklyAlarmCheckerWeeklyService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.IWeeklyAlarmCheckerService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class AlarmManagerService {
 
-    //@Autowired
+    @Autowired
     private List<IDailyAlarmCheckerService> dailyAlarmCheckers;
 
     @Autowired
-    private List<IWeeklyAlarmCheckerWeeklyService> weeklyAlarmCheckers;
+    private List<IWeeklyAlarmCheckerService> weeklyAlarmCheckers;
 
     @Autowired
     private MessageSource messageSource;
