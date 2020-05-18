@@ -3,6 +3,10 @@ package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.daily;
 import com.diego.hernando.orchestTest.business.DateOperationsService;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.DayDateAlarmParameterFormatter;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.HourDateAlarmParameterFormatter;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IAlarmParameterFormatter;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import com.diego.hernando.orchestTest.configuration.Constants;
@@ -18,8 +22,8 @@ import java.util.*;
 public class LimitMinimumInitWorkHourAlarmChecker implements IDailyAlarmCheckerService {
 
     private final WorkSignOperationsService wSignOpSrv;
-
     private final DateOperationsService dateOpsSrv;
+    private final AlarmParameterFormattersFactoryService alarmParamFormattersFactory;
 
     private final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern(Constants.PATTERN_SIMPLE_HOUR_JODA);
     protected final List<DateTime> limitMinInitHourByDayWeek = Arrays.asList(
@@ -32,19 +36,28 @@ public class LimitMinimumInitWorkHourAlarmChecker implements IDailyAlarmCheckerS
             null);
 
     @Autowired
-    public LimitMinimumInitWorkHourAlarmChecker(WorkSignOperationsService wSignOpSrv, DateOperationsService dateOpsSrv) {
+    public LimitMinimumInitWorkHourAlarmChecker(WorkSignOperationsService wSignOpSrv,
+                                                DateOperationsService dateOpsSrv,
+                                                AlarmParameterFormattersFactoryService alarmParamFormattersFactory) {
         this.wSignOpSrv = wSignOpSrv;
         this.dateOpsSrv = dateOpsSrv;
+        this.alarmParamFormattersFactory = alarmParamFormattersFactory;
     }
 
     @Override
     public String getKeyDescription() {
-        return "alarm.checker.limit.minimum_init_work_hour";
+        return "alarm.checker.limit.minimum.init.work.hour";
     }
 
     @Override
     public AlarmLevel getLevel() {
         return AlarmLevel.WARNING;
+    }
+
+    @Override
+    public List<IAlarmParameterFormatter<Object>> getParameterFormatters() {
+        return Arrays.asList(alarmParamFormattersFactory.getAlarmParameterFormatter(HourDateAlarmParameterFormatter.class),
+                alarmParamFormattersFactory.getAlarmParameterFormatter(DayDateAlarmParameterFormatter.class));
     }
 
     @Override
@@ -67,6 +80,7 @@ public class LimitMinimumInitWorkHourAlarmChecker implements IDailyAlarmCheckerS
                         new Alarm(Collections.singletonList(initWsign),
                                 getKeyDescription(),
                                 new Object[]{minHourInit.toDate(), minHourInit.toDate()},
+                                getParameterFormatters(),
                                 getLevel()
                         )
         );

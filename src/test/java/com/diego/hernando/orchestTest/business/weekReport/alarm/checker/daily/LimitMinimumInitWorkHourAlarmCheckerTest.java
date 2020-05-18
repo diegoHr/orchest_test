@@ -3,12 +3,17 @@ package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.daily;
 import com.diego.hernando.orchestTest.business.DateOperationsService;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
 import com.diego.hernando.orchestTest.model.WorkSignType;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
@@ -20,14 +25,15 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
 
     private final WorkSignOperationsService wSignsOpSrv = new WorkSignOperationsService();
     private final DateOperationsService dateOpSrv = new DateOperationsService();
+    private final AlarmParameterFormattersFactoryService alarmParamFormattersFactory = Mockito.mock(AlarmParameterFormattersFactoryService.class);
 
     private final LimitMinimumInitWorkHourAlarmChecker alarmChecker = new LimitMinimumInitWorkHourAlarmChecker(
-            wSignsOpSrv, dateOpSrv);
+            wSignsOpSrv, dateOpSrv, alarmParamFormattersFactory);
 
     private final WorkSignDto.WorkSignDtoBuilder wSignBuilder = WorkSignDto.builder();
 
     private String getKeyDescription () {
-        return "alarm.checker.limit.minimum_init_work_hour";
+        return "alarm.checker.limit.minimum.init.work.hour";
     }
 
     @Test

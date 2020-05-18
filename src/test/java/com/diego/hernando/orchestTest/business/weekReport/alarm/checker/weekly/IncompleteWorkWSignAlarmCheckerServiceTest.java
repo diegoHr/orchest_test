@@ -4,9 +4,14 @@ import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.helper.IncompleteWSignsOperationsService;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly.IncompleteWorkWSignAlarmCheckerService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
@@ -18,9 +23,9 @@ public class IncompleteWorkWSignAlarmCheckerServiceTest {
 
     private final WorkSignOperationsService wSignOpSrv = new WorkSignOperationsService();
     private final IncompleteWSignsOperationsService incompWSignsOpSrv = new IncompleteWSignsOperationsService(wSignOpSrv);
+    private final AlarmParameterFormattersFactoryService alarmParamFormattersFactory = Mockito.mock(AlarmParameterFormattersFactoryService.class);
     private final IncompleteWorkWSignAlarmCheckerService alarmChecker =
-            new IncompleteWorkWSignAlarmCheckerService(wSignOpSrv, incompWSignsOpSrv);
-
+            new IncompleteWorkWSignAlarmCheckerService(wSignOpSrv, incompWSignsOpSrv, alarmParamFormattersFactory);
 
     @Test
     public void list_with_one_IN_WSign_only_appear_1_time_in_alarm_check () throws Exception{

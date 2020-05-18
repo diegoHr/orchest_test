@@ -3,6 +3,9 @@ package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.helper.IncompleteWSignsOperationsService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IAlarmParameterFormatter;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.ObjectAlarmParameterFormatter;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +21,15 @@ public class BadRestWSignAlarmChecker implements IWeeklyAlarmCheckerService {
 
     private final WorkSignOperationsService workSignOpSrv;
     private final IncompleteWSignsOperationsService incompWSignsOpSrv;
+    private final AlarmParameterFormattersFactoryService alarmParameterFormattersFactory;
 
     @Autowired
-    public BadRestWSignAlarmChecker(WorkSignOperationsService workSignOpSrv, IncompleteWSignsOperationsService incompWSignsOpSrv) {
+    public BadRestWSignAlarmChecker(WorkSignOperationsService workSignOpSrv,
+                                    IncompleteWSignsOperationsService incompWSignsOpSrv,
+                                    AlarmParameterFormattersFactoryService alarmParameterFormattersFactory) {
         this.workSignOpSrv = workSignOpSrv;
         this.incompWSignsOpSrv = incompWSignsOpSrv;
+        this.alarmParameterFormattersFactory = alarmParameterFormattersFactory;
     }
 
     @Override
@@ -33,6 +40,11 @@ public class BadRestWSignAlarmChecker implements IWeeklyAlarmCheckerService {
     @Override
     public AlarmLevel getLevel() {
         return AlarmLevel.ERROR;
+    }
+
+    @Override
+    public List<IAlarmParameterFormatter<Object>> getParameterFormatters() {
+        return Collections.singletonList(alarmParameterFormattersFactory.getAlarmParameterFormatter(ObjectAlarmParameterFormatter.class));
     }
 
     @Override
@@ -89,7 +101,7 @@ public class BadRestWSignAlarmChecker implements IWeeklyAlarmCheckerService {
     }
 
     private Alarm createAlarm (List<WorkSignDto> wSignsTriggeredAlarm){
-        return new Alarm(wSignsTriggeredAlarm, getKeyDescription(), new Object[]{wSignsTriggeredAlarm.size()}, getLevel());
+        return new Alarm(wSignsTriggeredAlarm, getKeyDescription(), new Object[]{wSignsTriggeredAlarm.size()}, getParameterFormatters(), getLevel());
     }
 
     private boolean isRestWSignInWork (WorkSignDto restWSign, WorkSignDto workWSignI, WorkSignDto workWSignII){

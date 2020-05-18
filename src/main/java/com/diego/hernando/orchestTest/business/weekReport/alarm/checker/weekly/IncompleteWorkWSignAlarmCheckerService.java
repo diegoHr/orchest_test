@@ -3,6 +3,9 @@ package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.helper.IncompleteWSignsOperationsService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IAlarmParameterFormatter;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.ObjectAlarmParameterFormatter;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +19,15 @@ public class IncompleteWorkWSignAlarmCheckerService implements IWeeklyAlarmCheck
 
     private final WorkSignOperationsService workSignOpSrv;
     private final IncompleteWSignsOperationsService incompleteWSignOpSrv;
+    private final AlarmParameterFormattersFactoryService alarmParameterFactory;
 
     @Autowired
-    public IncompleteWorkWSignAlarmCheckerService(WorkSignOperationsService workSignOpSrv, IncompleteWSignsOperationsService incompleteWSignOpSrv) {
+    public IncompleteWorkWSignAlarmCheckerService(WorkSignOperationsService workSignOpSrv,
+                                                  IncompleteWSignsOperationsService incompleteWSignOpSrv,
+                                                  AlarmParameterFormattersFactoryService alarmParameterFactory) {
         this.workSignOpSrv = workSignOpSrv;
         this.incompleteWSignOpSrv = incompleteWSignOpSrv;
+        this.alarmParameterFactory = alarmParameterFactory;
     }
 
 
@@ -36,7 +43,8 @@ public class IncompleteWorkWSignAlarmCheckerService implements IWeeklyAlarmCheck
                 .filter(workSignOpSrv::isWorkTypeWorkSign).collect(Collectors.toList());
         List<WorkSignDto> wSignsTrigeredAlarm = incompleteWSignOpSrv.extractIncompleteWSigns(workSignsOfWork);
 
-        return Collections.singletonList(new Alarm(wSignsTrigeredAlarm, getKeyDescription(), new Object[]{wSignsTrigeredAlarm.size()}, getLevel()));
+        return Collections.singletonList(new Alarm(wSignsTrigeredAlarm, getKeyDescription(),
+                new Object[]{wSignsTrigeredAlarm.size()}, getParameterFormatters(), getLevel()));
     }
 
     @Override
@@ -44,8 +52,10 @@ public class IncompleteWorkWSignAlarmCheckerService implements IWeeklyAlarmCheck
         return AlarmLevel.ERROR;
     }
 
-
-
+    @Override
+    public List<IAlarmParameterFormatter<Object>> getParameterFormatters() {
+        return Collections.singletonList(alarmParameterFactory.getAlarmParameterFormatter(ObjectAlarmParameterFormatter.class));
+    }
 
 
 }
