@@ -78,6 +78,29 @@ public class LimitHoursByDayAlarmCheckerITest {
         assertThat(alarms.size(), is(0));
     }
 
+
+    @Test
+    public void test_wSigns_that_add_1min_of_work_in_sat_check () {
+        List<WorkSignDto> wSigns = new ArrayList<>(Arrays.asList( //09/05/2020 was saturday
+                workWSignBuilder.recordType(WorkSignRecordType.IN).date(parseDate("09/05/2020 08:00:00")).build(),
+                workWSignBuilder.recordType(WorkSignRecordType.OUT).date(parseDate("09/05/2020 08:01:00")).build()
+        ));
+
+        List<Alarm> alarms = alarmChecker.check(wSigns);
+        assertThat(alarms.size(), is(1));
+    }
+
+    @Test
+    public void test_wSigns_that_add_1min_of_work_in_sun_check () {
+        List<WorkSignDto> wSigns = new ArrayList<>(Arrays.asList( //09/05/2020 was sunday
+                workWSignBuilder.recordType(WorkSignRecordType.IN).date(parseDate("10/05/2020 08:00:00")).build(),
+                workWSignBuilder.recordType(WorkSignRecordType.OUT).date(parseDate("10/05/2020 08:01:00")).build()
+        ));
+
+        List<Alarm> alarms = alarmChecker.check(wSigns);
+        assertThat(alarms.size(), is(1));
+    }
+
     @Test
     public void test_wSigns_that_add_9H_of_work_check () {
         List<WorkSignDto> wSigns = new ArrayList<>(Arrays.asList(

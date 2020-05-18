@@ -17,7 +17,7 @@ import java.util.List;
 public class LimitHoursByDayAlarmChecker implements IDailyAlarmCheckerService {
 
     private final HoursWorkedCalculatorService hoursWorkedCalcSrv;
-    protected final List<Integer> limitHoursOfWeek = Arrays.asList(10,10,10,10,10,10,10);
+    protected final List<Integer> limitHoursOfWeek = Arrays.asList(10,10,10,10,10,0,0);
 
 
     @Autowired
@@ -34,7 +34,7 @@ public class LimitHoursByDayAlarmChecker implements IDailyAlarmCheckerService {
     public List<Alarm> check(List<WorkSignDto> workSignsToCheck) {
         if(workSignsToCheck.size() > 0) {
             DateTime day = new DateTime(workSignsToCheck.get(0).getDate());
-            int limitHoursOfDay = limitHoursOfWeek.get(day.getDayOfWeek());
+            int limitHoursOfDay = limitHoursOfWeek.get(day.getDayOfWeek() - 1);
             if(limitHoursOfDay < hoursWorkedCalcSrv.calculateHoursWorked(workSignsToCheck)){
                 return Collections.singletonList(new Alarm(workSignsToCheck, getKeyDescription(), new Object[]{limitHoursOfDay, day}, getLevel()));
             }
