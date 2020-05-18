@@ -1,9 +1,11 @@
 package com.diego.hernando.orchestTest.business.weekReport.service;
 
+import com.diego.hernando.orchestTest.business.DateOperationsService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
 import com.diego.hernando.orchestTest.model.WorkSignType;
+import org.hamcrest.number.IsCloseTo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -15,11 +17,12 @@ import static org.hamcrest.Matchers.is;
 
 public class HoursWorkedCalculatorServiceTest {
 
-    private WorkSignOperationsService wSignOpSrv = new WorkSignOperationsService();
+    private final WorkSignOperationsService wSignOpSrv = new WorkSignOperationsService();
+    private final DateOperationsService dateOpSrv = new DateOperationsService();
 
-    private HoursWorkedCalculatorService hoursWCalSrv = new HoursWorkedCalculatorService(wSignOpSrv);
+    private final HoursWorkedCalculatorService hoursWCalSrv = new HoursWorkedCalculatorService(wSignOpSrv, dateOpSrv);
 
-    private WorkSignDto.WorkSignDtoBuilder builderDto = WorkSignDto.builder()
+    private final WorkSignDto.WorkSignDtoBuilder builderDto = WorkSignDto.builder()
             .serviceId("service").businessId("01").employeeId("1").recordType(WorkSignRecordType.IN).type(WorkSignType.WORK)
             .date(parseDate("04/05/2020 10:00:00"));
 
@@ -38,5 +41,32 @@ public class HoursWorkedCalculatorServiceTest {
         );
 
         assertThat(hoursWCalSrv.calculateHoursWorked(wSigns), is(8D));
+    }
+
+    @Test
+    public void test_calculate_worked_hours_of_1_day_complete_with_wSigns_that_initted_previous_day_calculateHoursWorked () {
+
+        List<WorkSignDto> wSigns = Arrays.asList(
+                builderDto.type(WorkSignType.WORK).recordType(WorkSignRecordType.OUT)
+                        .date(parseDate("04/05/2020 14:00:00")).build(),
+                builderDto.type(WorkSignType.WORK).recordType(WorkSignRecordType.IN)
+                        .date(parseDate("04/05/2020 15:00:00")).build(),
+                builderDto.type(WorkSignType.WORK).recordType(WorkSignRecordType.OUT)
+                        .date(parseDate("04/05/2020 20:00:00")).build()
+        );
+
+        assertThat(hoursWCalSrv.calculateHoursWorked(wSigns), is(19D));
+    }
+
+    @Test
+    public void test_calculate_worked_hours_of_1_day_complete_with_wSigns_that_finished_next_day_calculateHoursWorked () {
+
+        List<WorkSignDto> wSigns = Arrays.asList( builderDto.build(),
+                builderDto.type(WorkSignType.WORK).recordType(WorkSignRecordType.OUT)
+                        .date(parseDate("04/05/2020 14:00:00")).build(),
+                builderDto.type(WorkSignType.WORK).recordType(WorkSignRecordType.IN)
+                        .date(parseDate("04/05/2020 15:00:00")).build()
+        );
+        assertThat(hoursWCalSrv.calculateHoursWorked(wSigns), IsCloseTo.closeTo(12.99D, 0.01));
     }
 }
