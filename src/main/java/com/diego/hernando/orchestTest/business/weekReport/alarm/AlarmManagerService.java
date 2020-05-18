@@ -1,8 +1,8 @@
 package com.diego.hernando.orchestTest.business.weekReport.alarm;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.IAlarmCheckerService;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.IDailyAlarmCheckerService;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.IWeeklyAlarmCheckerService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.daily.IDailyAlarmCheckerService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly.IWeeklyAlarmCheckerService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

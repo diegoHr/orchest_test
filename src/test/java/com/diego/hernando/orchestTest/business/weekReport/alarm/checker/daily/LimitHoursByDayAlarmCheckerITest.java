@@ -1,7 +1,8 @@
-package com.diego.hernando.orchestTest.business.weekReport.alarm.checker;
+package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.daily;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.daily.LimitHoursByDayAlarmChecker;
 import com.diego.hernando.orchestTest.business.weekReport.service.HoursWorkedCalculatorService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDate;
@@ -51,7 +53,7 @@ public class LimitHoursByDayAlarmCheckerITest {
 
     @Test
     public void test_wSigns_only_with_one_inWSign_8AM_check () {
-        List<WorkSignDto> wSigns = Arrays.asList(
+        List<WorkSignDto> wSigns = Collections.singletonList(
                 workWSignBuilder.recordType(WorkSignRecordType.IN).date(parseDate("04/05/2020 08:00:00")).build()
         );
 
@@ -69,7 +71,7 @@ public class LimitHoursByDayAlarmCheckerITest {
 
     @Test
     public void test_wSigns_only_with_one_outWSign_8AM_check () {
-        List<WorkSignDto> wSigns = Arrays.asList(
+        List<WorkSignDto> wSigns = Collections.singletonList(
                 workWSignBuilder.recordType(WorkSignRecordType.OUT).date(parseDate("04/05/2020 08:00:00")).build()
         );
 

@@ -1,4 +1,4 @@
-package com.diego.hernando.orchestTest.business.weekReport.alarm.checker;
+package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
@@ -36,7 +36,7 @@ public class IncompleteWorkWSignAlarmCheckerService implements IWeeklyAlarmCheck
                 .filter(workSignOpSrv::isWorkTypeWorkSign).collect(Collectors.toList());
         List<WorkSignDto> wSignsTrigeredAlarm = incompleteWSignOpSrv.extractIncompleteWSigns(workSignsOfWork);
 
-        return Arrays.asList(new Alarm(wSignsTrigeredAlarm,getKeyDescription(),new Object[]{wSignsTrigeredAlarm.size()}, getLevel()));
+        return Collections.singletonList(new Alarm(wSignsTrigeredAlarm, getKeyDescription(), new Object[]{wSignsTrigeredAlarm.size()}, getLevel()));
     }
 
     @Override

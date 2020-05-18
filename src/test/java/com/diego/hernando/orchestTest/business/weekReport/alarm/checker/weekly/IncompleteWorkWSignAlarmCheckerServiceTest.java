@@ -1,8 +1,9 @@
-package com.diego.hernando.orchestTest.business.weekReport.alarm.checker;
+package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.helper.IncompleteWSignsOperationsService;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly.IncompleteWorkWSignAlarmCheckerService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.junit.jupiter.api.Test;

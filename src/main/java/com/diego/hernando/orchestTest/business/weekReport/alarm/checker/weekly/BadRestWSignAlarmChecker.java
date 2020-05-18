@@ -1,4 +1,4 @@
-package com.diego.hernando.orchestTest.business.weekReport.alarm.checker;
+package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.weekly;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
