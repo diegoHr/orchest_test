@@ -7,8 +7,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class RequestConfiguration implements WebMvcConfigurer {
+
+    private final RequestInterceptor interceptor;
+
     @Autowired
-    private RequestInterceptor interceptor;
+    public RequestConfiguration(RequestInterceptor interceptor) {
+        this.interceptor = interceptor;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

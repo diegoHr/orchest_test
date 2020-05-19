@@ -19,20 +19,24 @@ import java.util.stream.Stream;
 @Service
 public class WeekReportGeneratorService {
 
-    @Autowired
-    private WorkSignReturnerByWeeksService workSignRetByWeeksSrv;
+    private final WorkSignReturnerByWeeksService workSignRetByWeeksSrv;
+    private final HoursWorkedCalculatorService hoursWorkedCalculatorSrv;
+    private final AlarmManagerService alarmMngrSrv;
+    private final DateOperationsService dateOpSrv;
+    private final DayReportManagerService dayReportMgrSrv;
 
     @Autowired
-    private HoursWorkedCalculatorService hoursWorkedCalculatorSrv;
-
-    @Autowired
-    private AlarmManagerService alarmMngrSrv;
-
-    @Autowired
-    private DateOperationsService dateOpSrv;
-
-    @Autowired
-    private DayReportManagerService dayReportMgrSrv;
+    public WeekReportGeneratorService(WorkSignReturnerByWeeksService workSignRetByWeeksSrv,
+                                      HoursWorkedCalculatorService hoursWorkedCalculatorSrv,
+                                      AlarmManagerService alarmMngrSrv,
+                                      DateOperationsService dateOpSrv,
+                                      DayReportManagerService dayReportMgrSrv) {
+        this.workSignRetByWeeksSrv = workSignRetByWeeksSrv;
+        this.hoursWorkedCalculatorSrv = hoursWorkedCalculatorSrv;
+        this.alarmMngrSrv = alarmMngrSrv;
+        this.dateOpSrv = dateOpSrv;
+        this.dayReportMgrSrv = dayReportMgrSrv;
+    }
 
     public List<WeekReportDto> getWeekReports (int month, int year, String businessId, String employeeId, Locale localeUser){
         List<Date> initWeeks = dateOpSrv.getInitWeeks(month, year);

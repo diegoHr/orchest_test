@@ -1,22 +1,20 @@
 package com.diego.hernando.orchestTest.business.worksign.service;
 
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
-import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import com.diego.hernando.orchestTest.model.WorkSignRecordType;
 import com.diego.hernando.orchestTest.model.WorkSignType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class WorkSignOperationsServiceTest {
-    private WorkSignOperationsService wSignOpSrv = new WorkSignOperationsService();
-    private WorkSignDto.WorkSignDtoBuilder builderDto = WorkSignDto.builder().businessId("01").employeeId("1")
-            .date(new Date()).serviceId("service");
 
+    private final WorkSignOperationsService wSignOpSrv = new WorkSignOperationsService();
+    private final WorkSignDto.WorkSignDtoBuilder builderDto = WorkSignDto.builder().businessId("01").employeeId("1")
+            .date(new Date()).serviceId("service");
 
     @Test
     public void true_when_dto_rType_is_IN_with_isInRecordTypeWorkSign () {

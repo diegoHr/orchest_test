@@ -10,10 +10,7 @@ import com.diego.hernando.orchestTest.model.WorkSignRecordType;
 import com.diego.hernando.orchestTest.model.WorkSignType;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
@@ -72,9 +69,7 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
         );
         assertThat(
                 alarms.get(0).getDescriptionParams()[1],
-                is(alarmChecker.getMinHourInit(
-                        new DateTime(wSigns.get(0).getDate())).toDate()
-                )
+                is(parseDate("04/05/2020 07:59:00"))
         );
     }
 
@@ -120,9 +115,7 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
         );
         assertThat(
                 alarms.get(0).getDescriptionParams()[1],
-                is(alarmChecker.getMinHourInit(
-                        new DateTime(wSigns.get(0).getDate())).toDate()
-                )
+                is(parseDate("08/05/2020 06:59:00"))
         );
     }
 

@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public interface ICrudWorkSignService {
 
-    public Optional<WorkSignEntity> findById(long id);
-    public WorkSignEntity save(WorkSignEntity entity);
-    public List<WorkSignEntity> saveAll(List<WorkSignEntity> collection);
-    public long count();
-    public List<WorkSignEntity> findWorkSignsOfWorker(String businessId, String employeeId);
-    public List<WorkSignEntity> findEmployeeWorkSignsBetweenTwoDates(String businessId, String employeeId, Date startDate, Date finishDate);
+    Optional<WorkSignEntity> findById(long id);
+    WorkSignEntity save(WorkSignEntity entity);
+    List<WorkSignEntity> saveAll(List<WorkSignEntity> collection);
+    long count();
+    List<WorkSignEntity> findWorkSignsOfWorker(String businessId, String employeeId);
+    List<WorkSignEntity> findEmployeeWorkSignsBetweenTwoDates(String businessId, String employeeId, Date startDate, Date finishDate);
 }

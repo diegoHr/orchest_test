@@ -5,8 +5,6 @@ import com.diego.hernando.orchestTest.model.WorkSignRecordType;
 import com.diego.hernando.orchestTest.model.WorkSignType;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +31,11 @@ public class ImplCrudJpaWorkSignServiceITest {
 
     @Autowired
     private ICrudWorkSignService service;
-    private final DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
 
     private final String defaultBusinessId = "orchest_01";
     private final String defaultDate = "5/05/2020 10:20:20";
 
-    private WorkSignEntity.WorkSignEntityBuilder builderEntity = WorkSignEntity.builder()
+    private final WorkSignEntity.WorkSignEntityBuilder builderEntity = WorkSignEntity.builder()
             .businessId(defaultBusinessId)
             .employeeId("01")
             .date(parseDate(defaultDate))
@@ -79,9 +76,7 @@ public class ImplCrudJpaWorkSignServiceITest {
         List<WorkSignEntity> entities = new ArrayList<>();
         entities.add(WorkSignEntity.builder().id(1L).build());
         entities.add(WorkSignEntity.builder().id(1L).build());
-        assertThrows(DataIntegrityViolationException.class,()->{
-            service.saveAll(entities);
-        });
+        assertThrows(DataIntegrityViolationException.class,()-> service.saveAll(entities));
         assertThat(service.findById(1L).isPresent(), is(false));
     }
 

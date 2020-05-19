@@ -12,8 +12,12 @@ import java.util.*;
 @Qualifier("CrudJpaWorkSignService")
 public class ImplCrudJpaWorkSignService implements ICrudWorkSignService {
 
+    private final IJpaWorkSignRepository repository;
+
     @Autowired
-    private IJpaWorkSignRepository repository;
+    public ImplCrudJpaWorkSignService(IJpaWorkSignRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Optional<WorkSignEntity> findById(long id) {

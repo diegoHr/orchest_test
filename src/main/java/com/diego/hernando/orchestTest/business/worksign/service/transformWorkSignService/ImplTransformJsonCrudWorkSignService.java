@@ -13,8 +13,14 @@ import java.util.stream.Collectors;
 @Service
 @Qualifier("TransformJsonCrudWorkingSignService")
 public class ImplTransformJsonCrudWorkSignService implements ITransformJsonCrudWorkSignService {
+
+    private final ICrudWorkSignService crudWorkSignService;
+
     @Autowired
-    private ICrudWorkSignService crudWorkSignService;
+    public ImplTransformJsonCrudWorkSignService(
+            @Qualifier("CrudJpaWorkSignService") ICrudWorkSignService crudWorkSignService) {
+        this.crudWorkSignService = crudWorkSignService;
+    }
 
     @Override
     public WorkSignDto getDto(WorkSignEntity entity) {

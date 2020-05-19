@@ -19,11 +19,14 @@ import java.util.Locale;
 @RequestMapping("weekreports")
 public class WeekReportController {
 
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
+    private final WeekReportGeneratorService weekGenSrv;
 
     @Autowired
-    private WeekReportGeneratorService weekGenSrv;
+    public WeekReportController(MessageSource messageSource, WeekReportGeneratorService weekGenSrv) {
+        this.messageSource = messageSource;
+        this.weekGenSrv = weekGenSrv;
+    }
 
     @GetMapping("/{businessId}/{employeeId}")
     public WeekReportDto getWeekReport (@PathVariable String businessId, @PathVariable String employeeId,

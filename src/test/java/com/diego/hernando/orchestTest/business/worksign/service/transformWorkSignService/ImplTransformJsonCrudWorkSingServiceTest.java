@@ -30,9 +30,9 @@ public class ImplTransformJsonCrudWorkSingServiceTest {
     @InjectMocks
     private ImplTransformJsonCrudWorkSignService service;
 
-    private ObjectMapper jsonMapper = new ObjectMapper();
+    private final ObjectMapper jsonMapper = new ObjectMapper();
 
-    private long epochDate = 1577872800000L;
+    private final long epochDate = 1577872800000L;
     private String stringDate ="2020-01-01T10:00:00.000Z";
 
     @Test

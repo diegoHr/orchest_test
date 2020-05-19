@@ -110,9 +110,7 @@ public class IncompleteWSignsOperationsServiceTest {
                 "  \"type\": \"WORK\"}";
 
         WorkSignDto firstDto = objectMapper.readValue(jsonFirstDto, WorkSignDto.class);
-        assertThrows(NullPointerException.class, ()->{
-            incompWSignsOpSrv.getIncompleteWSign(firstDto,null);
-        });
+        assertThrows(NullPointerException.class, ()-> incompWSignsOpSrv.getIncompleteWSign(firstDto,null));
     }
 
     @Test
@@ -125,9 +123,7 @@ public class IncompleteWSignsOperationsServiceTest {
                 "  \"type\": \"WORK\"}";
 
         WorkSignDto previousDto = objectMapper.readValue(jsonPreviousDto, WorkSignDto.class);
-        assertThrows(NullPointerException.class,()->{
-            incompWSignsOpSrv.getIncompleteWSign(previousDto, null);
-        });
+        assertThrows(NullPointerException.class,()-> incompWSignsOpSrv.getIncompleteWSign(previousDto, null));
     }
 
     @Test
@@ -139,13 +135,11 @@ public class IncompleteWSignsOperationsServiceTest {
                 "  \"serviceId\": \"ALBASANZ\",\n" +
                 "  \"type\": \"WORK\"}";
         WorkSignDto nextDto = objectMapper.readValue(jsonNextDto, WorkSignDto.class);
-        assertThrows(NullPointerException.class,()->{
-            incompWSignsOpSrv.getIncompleteWSign(null, nextDto);
-        });
+        assertThrows(NullPointerException.class,()-> incompWSignsOpSrv.getIncompleteWSign(null, nextDto));
     }
 
     @Test
-    public void workSignDtos_empty_extractIncompleteWSigns () throws Exception{
+    public void workSignDtos_empty_extractIncompleteWSigns () {
         assertThat(incompWSignsOpSrv.extractIncompleteWSigns(
                 new ArrayList<>()).size(),
                 is(0));

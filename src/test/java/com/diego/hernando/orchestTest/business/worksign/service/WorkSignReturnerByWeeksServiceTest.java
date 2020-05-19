@@ -84,9 +84,9 @@ public class WorkSignReturnerByWeeksServiceTest {
     }
 
     @Test
-    /**
-     * It is a strange case, but if it were true, it would cause the loss of info if the data from the previous day
-     * when they were incomplete.
+    /*
+      It is a strange case, but if it were true, it would cause the loss of info if the data from the previous day
+      when they were incomplete.
      */
     public void check_week_has_not_wSigns_its_init_not_free_work_isFreeWorkWeekInit () {
         List<WorkSignDto> dtos = new ArrayList<>();

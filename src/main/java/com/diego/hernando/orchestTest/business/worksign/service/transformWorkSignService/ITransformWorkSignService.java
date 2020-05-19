@@ -21,6 +21,7 @@ public interface ITransformWorkSignService<D,E> {
      * @param dto
      * @return E entity saved in persistence
      */
+    @SuppressWarnings("UnusedReturnValue")
     E getEntitySaved(D dto);
 
     List<D> getListDto(List<E> entities);

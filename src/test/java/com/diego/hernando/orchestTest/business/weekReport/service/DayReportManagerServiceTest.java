@@ -28,7 +28,7 @@ public class DayReportManagerServiceTest {
 
     @Test
     public void dayReports_of_week_without_work_getDayReportsFromWSignsOfWeek () {
-        assertThat(dayReportManagerService.getDayReportsFromWSignsOfWeek(new ArrayList<WorkSignDto>()).size(), is(0));
+        assertThat(dayReportManagerService.getDayReportsFromWSignsOfWeek(new ArrayList<>()).size(), is(0));
     }
 
     @Test

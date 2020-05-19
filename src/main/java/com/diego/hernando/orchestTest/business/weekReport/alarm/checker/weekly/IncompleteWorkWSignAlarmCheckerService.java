@@ -6,7 +6,6 @@ import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.helper.I
 import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IAlarmParameterFormatter;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IntegerAlarmParameterFormatter;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.ObjectAlarmParameterFormatter;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;

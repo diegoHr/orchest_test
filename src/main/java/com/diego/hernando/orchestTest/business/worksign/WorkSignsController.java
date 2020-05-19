@@ -22,21 +22,27 @@ import java.util.List;
 @RequestMapping("worksigns")
 public class WorkSignsController {
 
-    @Autowired
-    @Qualifier("TransformJsonCrudWorkingSignService")
-    private ITransformJsonCrudWorkSignService transformJsonCrudService;
+
+    private final ITransformJsonCrudWorkSignService transformJsonCrudService;
+
+
+    private final ICrudWorkSignService crudService;
+
+    private final MessageSource messageSource;
 
     @Autowired
-    @Qualifier("CrudJpaWorkSignService")
-    private ICrudWorkSignService crudService;
-
-    @Autowired
-    private MessageSource messageSource;
+    public WorkSignsController(@Qualifier("TransformJsonCrudWorkingSignService") ITransformJsonCrudWorkSignService transformJsonCrudService,
+                               @Qualifier("CrudJpaWorkSignService") ICrudWorkSignService crudService,
+                               MessageSource messageSource) {
+        this.transformJsonCrudService = transformJsonCrudService;
+        this.crudService = crudService;
+        this.messageSource = messageSource;
+    }
 
     @PostMapping
     public IRestResponse saveWorkSigns (HttpServletRequest request, HttpServletResponse response, @RequestBody List<WorkSignDto> workSigns){
         try {
-            Integer size = transformJsonCrudService.getListEntitiesSaved(workSigns).size();
+            int size = transformJsonCrudService.getListEntitiesSaved(workSigns).size();
             return OkRestResponse.builder().message(
                     messageSource.getMessage("worksigns.controller.save.success", new Integer[]{size}, request.getLocale())).build();
         }catch (Throwable th){

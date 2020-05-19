@@ -15,14 +15,16 @@ import java.util.stream.Collectors;
 @Service
 public class AlarmManagerService {
 
-    @Autowired
-    private List<IDailyAlarmCheckerService> dailyAlarmCheckers;
+    private final List<IDailyAlarmCheckerService> dailyAlarmCheckers;
+    private final List<IWeeklyAlarmCheckerService> weeklyAlarmCheckers;
+    private final MessageSource messageSource;
 
     @Autowired
-    private List<IWeeklyAlarmCheckerService> weeklyAlarmCheckers;
-
-    @Autowired
-    private MessageSource messageSource;
+    public AlarmManagerService(List<IDailyAlarmCheckerService> dailyAlarmCheckers, List<IWeeklyAlarmCheckerService> weeklyAlarmCheckers, MessageSource messageSource) {
+        this.dailyAlarmCheckers = dailyAlarmCheckers;
+        this.weeklyAlarmCheckers = weeklyAlarmCheckers;
+        this.messageSource = messageSource;
+    }
 
     public List<AlarmDto> generateWeeklyAlarms (List<WorkSignDto> weeklyWSigns, Locale locale){
         return generateAlarms(weeklyWSigns, weeklyAlarmCheckers, locale);

@@ -58,7 +58,7 @@ class OrchestTestApplicationTests {
 		String line;
 		try {
 
-			br = new BufferedReader(new InputStreamReader(is, "UTF8"));
+			br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 			}

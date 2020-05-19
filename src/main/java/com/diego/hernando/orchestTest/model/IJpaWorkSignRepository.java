@@ -11,11 +11,11 @@ import java.util.List;
 @Repository
 public interface IJpaWorkSignRepository extends CrudRepository<WorkSignEntity, Long> {
 
-    public List<WorkSignEntity> findByBusinessIdAndEmployeeIdOrderByDateAsc(String businessId, String employeeId);
+    List<WorkSignEntity> findByBusinessIdAndEmployeeIdOrderByDateAsc(String businessId, String employeeId);
 
     @Query(value = "FROM WorkSignEntity w WHERE w.date BETWEEN :startDate AND :endDate AND w.businessId = :businessId " +
             "AND w.employeeId = :employeeId ORDER BY w.date ASC")
-    public List<WorkSignEntity> findEmployeeWorkSignBetweenTwoDates(@Param("businessId")String businessId,
+    List<WorkSignEntity> findEmployeeWorkSignBetweenTwoDates(@Param("businessId")String businessId,
                                                                     @Param("employeeId") String employeeId,
                                                                     @Param("startDate") Date startDate,
                                                                     @Param("endDate") Date finishDate);

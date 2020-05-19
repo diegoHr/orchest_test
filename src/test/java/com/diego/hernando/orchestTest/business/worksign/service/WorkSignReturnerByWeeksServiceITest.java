@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +58,7 @@ public class WorkSignReturnerByWeeksServiceITest {
     }
 
     @Test
-    public void test_get_incomplete_wSigns_of_prepared_set_getIncompleteWSignsOfPreviousDayOfWeek() throws Exception {
+    public void test_get_incomplete_wSigns_of_prepared_set_getIncompleteWSignsOfPreviousDayOfWeek(){
         addTestWSignsOfIncompleteDay();
         List<WorkSignDto> incompWSignsPrevDayWeek = wSignRetByWeekSrv
                 .getIncompleteWSignsOfPreviousDayOfWeek("1", "01",
@@ -347,7 +346,7 @@ public class WorkSignReturnerByWeeksServiceITest {
         ));
     }
 
-    private void addTestWsingsOfCompleteDay () throws Exception{
+    private void addTestWsingsOfCompleteDay () {
         addTestWSignsOfIncompleteDay();
         transJsonCrudWSignSrv.getEntitySaved(builderBaseDto.date(parseDate("03/05/2020 11:30:00")).type(WorkSignType.WORK)
                 .recordType(WorkSignRecordType.OUT).build());
