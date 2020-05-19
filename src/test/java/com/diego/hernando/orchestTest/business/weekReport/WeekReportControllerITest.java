@@ -53,7 +53,7 @@ public class WeekReportControllerITest {
     }
 
 
-
+    @SuppressWarnings("FieldCanBeLocal")
     private final String expectedResponse = "[\n" +
             "    {\n" +
             "        \"initialDay\": \"2017-12-31T23:00:00.000Z\",\n" +
@@ -274,6 +274,8 @@ public class WeekReportControllerITest {
             "        \"alarms\": []\n" +
             "    }\n" +
             "]";
+
+
     private final String jsonWSigns = "[{\"businessId\": \"1\",\n" +
             "  \"date\": \"2018-01-01T08:00:00.000Z\",\n" +
             "  \"employeeId\": \"222222222\",\n" +
