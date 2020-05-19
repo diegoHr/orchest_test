@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ import static org.hamcrest.Matchers.not;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class WorkSignReturnerByWeeksServiceITest {
 
 
@@ -70,7 +73,7 @@ public class WorkSignReturnerByWeeksServiceITest {
     }
 
     @Test
-    public void test_get_empty_list_with_prepared_set_of_complete_day_getIncompleteWSignsOfPreviousDayOfWeek() throws Exception {
+    public void test_get_empty_list_with_prepared_set_of_complete_day_getIncompleteWSignsOfPreviousDayOfWeek()  {
         addTestWsingsOfCompleteDay();
         List<WorkSignDto> compWSignsPrevDayWeek = wSignRetByWeekSrv
                 .getIncompleteWSignsOfPreviousDayOfWeek("1", "01",
