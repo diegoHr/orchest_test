@@ -28,7 +28,6 @@ public class WeekReportControllerITest {
     @Autowired
     private ObjectMapper jsonMapper;
 
-
     @Test
     public void get_week_report ()  throws Exception{
         System.out.println(jsonWSigns);
