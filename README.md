@@ -12,3 +12,6 @@ orchest_test image, then copy example.env to .env and modify parameters if it is
 cp ./example.env ./.env
 docker-compose up 
 ```
+
+## API reference
+Swagger has been configured in this project, when it is deployed, /swagger-ui.html will be accessible with the API reference.
