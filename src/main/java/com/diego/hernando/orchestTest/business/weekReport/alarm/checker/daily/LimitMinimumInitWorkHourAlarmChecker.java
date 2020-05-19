@@ -79,7 +79,7 @@ public class LimitMinimumInitWorkHourAlarmChecker implements IDailyAlarmCheckerS
                 : Collections.singletonList(
                         new Alarm(Collections.singletonList(initWsign),
                                 getKeyDescription(),
-                                new Object[]{minHourInit.toDate(), minHourInit.toDate()},
+                                new Object[]{minHourInit.toDate(), initWorkDay.toDate()},
                                 getParameterFormatters(),
                                 getLevel()
                         )

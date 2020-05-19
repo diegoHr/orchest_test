@@ -55,7 +55,7 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
     public void test_first_workInWsign_Mon_7_59AM_alarm_check () {
         List<WorkSignDto> wSigns = Collections.singletonList(
                 wSignBuilder.recordType(WorkSignRecordType.IN).type(WorkSignType.WORK)
-                        .date(parseDate("04/05/2020 07:59:00")).build() //08/05/2020 was monday
+                        .date(parseDate("04/05/2020 07:59:00")).build() //08/05/2020 was Monday
         );
 
         List<Alarm> alarms = alarmChecker.check(wSigns);
@@ -82,7 +82,7 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
     public void test_first_workInWsign_Mon_8AM_not_alarm_check () {
         List<WorkSignDto> wSigns = Collections.singletonList(
                 wSignBuilder.recordType(WorkSignRecordType.IN).type(WorkSignType.WORK)
-                        .date(parseDate("04/05/2020 08:00:00")).build() //08/05/2020 was monday
+                        .date(parseDate("04/05/2020 08:00:00")).build() //08/05/2020 was Monday
         );
 
         List<Alarm> alarms = alarmChecker.check(wSigns);
@@ -152,7 +152,7 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
     public void test_first_workOutWsign_Mon_7AM_alarm_check () {
         List<WorkSignDto> wSigns = Collections.singletonList(
                 wSignBuilder.recordType(WorkSignRecordType.OUT).type(WorkSignType.WORK)
-                        .date(parseDate("04/05/2020 07:00:00")).build() //04/05/2020 was monday
+                        .date(parseDate("04/05/2020 07:00:00")).build() //04/05/2020 was Monday
         );
 
         List<Alarm> alarms = alarmChecker.check(wSigns);
@@ -163,7 +163,7 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
     public void test_first_workOutWsign_Mon_7AM_second_workInWsign_Mon_8AM_not_alarm_check () {
         List<WorkSignDto> wSigns = Arrays.asList(
                 wSignBuilder.recordType(WorkSignRecordType.OUT).type(WorkSignType.WORK)
-                        .date(parseDate("04/05/2020 07:00:00")).build(), //04/05/2020 was monday
+                        .date(parseDate("04/05/2020 07:00:00")).build(), //04/05/2020 was Monday
                 wSignBuilder.recordType(WorkSignRecordType.IN).type(WorkSignType.WORK)
                         .date(parseDate("04/05/2020 08:00:00")).build()
         );
@@ -176,7 +176,7 @@ public class LimitMinimumInitWorkHourAlarmCheckerTest {
     public void test_first_workOutWsign_Mon_8AM_second_workInWsign_Mon_9AM_not_alarm_check () {
         List<WorkSignDto> wSigns = Arrays.asList(
                 wSignBuilder.recordType(WorkSignRecordType.OUT).type(WorkSignType.WORK)
-                        .date(parseDate("04/05/2020 08:00:00")).build(), //04/05/2020 was monday
+                        .date(parseDate("04/05/2020 08:00:00")).build(), //04/05/2020 was Monday
                 wSignBuilder.recordType(WorkSignRecordType.IN).type(WorkSignType.WORK)
                         .date(parseDate("04/05/2020 09:00:00")).build()
         );
