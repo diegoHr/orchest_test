@@ -15,7 +15,7 @@ public class Alarm {
     private List<WorkSignDto> workSignsTriggeredAlarm;
     private String keyDescription;
     private Object[] descriptionParams;
-    private List<IAlarmParameterFormatter<Object>> formatters;
+    private List<IAlarmParameterFormatter<Object, Object>> formatters;
     private AlarmLevel alarmLevel;
 
     public AlarmDto getDto (MessageSource messageSource, Locale locale){

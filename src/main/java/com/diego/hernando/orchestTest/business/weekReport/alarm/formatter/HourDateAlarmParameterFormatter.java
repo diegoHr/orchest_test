@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @Component
-public class HourDateAlarmParameterFormatter implements IAlarmParameterFormatter<Date>{
+public class HourDateAlarmParameterFormatter implements IAlarmParameterFormatter<Date, String>{
 
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(Constants.PATTERN_SIMPLE_HOUR_JODA);
 

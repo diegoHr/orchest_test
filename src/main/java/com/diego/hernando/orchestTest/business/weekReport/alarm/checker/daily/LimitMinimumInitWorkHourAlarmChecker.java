@@ -55,7 +55,7 @@ public class LimitMinimumInitWorkHourAlarmChecker implements IDailyAlarmCheckerS
     }
 
     @Override
-    public List<IAlarmParameterFormatter<Object>> getParameterFormatters() {
+    public List<IAlarmParameterFormatter<Object,Object>> getParameterFormatters() {
         return Arrays.asList(alarmParamFormattersFactory.getAlarmParameterFormatter(HourDateAlarmParameterFormatter.class),
                 alarmParamFormattersFactory.getAlarmParameterFormatter(DayDateAlarmParameterFormatter.class));
     }

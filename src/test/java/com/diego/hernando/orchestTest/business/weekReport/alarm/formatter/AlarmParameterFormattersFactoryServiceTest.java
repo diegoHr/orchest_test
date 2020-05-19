@@ -26,5 +26,9 @@ public class AlarmParameterFormattersFactoryServiceTest {
         assertThat(factory.getAlarmParameterFormatter(PrettyPrintDateAlarmParameterFormatter.class)
                         .write(esLocale, parseDate("04/05/2020 08:00:00")),
                 is("lun, may 4, 2020"));
+
+        assertThat(factory.getAlarmParameterFormatter(IntegerAlarmParameterFormatter.class)
+                        .write(esLocale, 1).getClass(),
+                is(Integer.class));
     }
 }

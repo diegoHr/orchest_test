@@ -2,10 +2,7 @@ package com.diego.hernando.orchestTest.business.weekReport.alarm.checker.daily;
 
 import com.diego.hernando.orchestTest.business.weekReport.alarm.Alarm;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IAlarmParameterFormatter;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.ObjectAlarmParameterFormatter;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.PrettyPrintDateAlarmParameterFormatter;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.*;
 import com.diego.hernando.orchestTest.business.weekReport.service.HoursWorkedCalculatorService;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import org.joda.time.DateTime;
@@ -56,8 +53,8 @@ public class LimitHoursByDayAlarmChecker implements IDailyAlarmCheckerService {
     }
 
     @Override
-    public List<IAlarmParameterFormatter<Object>> getParameterFormatters() {
-        return Arrays.asList(alarmParamFormattersFactory.getAlarmParameterFormatter(ObjectAlarmParameterFormatter.class),
+    public List<IAlarmParameterFormatter<Object,Object>> getParameterFormatters() {
+        return Arrays.asList(alarmParamFormattersFactory.getAlarmParameterFormatter(IntegerAlarmParameterFormatter.class),
                 alarmParamFormattersFactory.getAlarmParameterFormatter(PrettyPrintDateAlarmParameterFormatter.class));
     }
 }

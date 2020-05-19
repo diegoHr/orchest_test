@@ -5,7 +5,7 @@ import com.diego.hernando.orchestTest.business.weekReport.alarm.AlarmLevel;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.checker.helper.IncompleteWSignsOperationsService;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.AlarmParameterFormattersFactoryService;
 import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IAlarmParameterFormatter;
-import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.ObjectAlarmParameterFormatter;
+import com.diego.hernando.orchestTest.business.weekReport.alarm.formatter.IntegerAlarmParameterFormatter;
 import com.diego.hernando.orchestTest.business.worksign.WorkSignDto;
 import com.diego.hernando.orchestTest.business.worksign.service.WorkSignOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,8 @@ public class BadRestWSignAlarmChecker implements IWeeklyAlarmCheckerService {
     }
 
     @Override
-    public List<IAlarmParameterFormatter<Object>> getParameterFormatters() {
-        return Collections.singletonList(alarmParameterFormattersFactory.getAlarmParameterFormatter(ObjectAlarmParameterFormatter.class));
+    public List<IAlarmParameterFormatter<Object,Object>> getParameterFormatters() {
+        return Collections.singletonList(alarmParameterFormattersFactory.getAlarmParameterFormatter(IntegerAlarmParameterFormatter.class));
     }
 
     @Override

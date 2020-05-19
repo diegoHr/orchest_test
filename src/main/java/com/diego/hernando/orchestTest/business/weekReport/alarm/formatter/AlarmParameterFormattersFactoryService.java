@@ -10,16 +10,14 @@ import java.util.Map;
 @Service
 public class AlarmParameterFormattersFactoryService {
 
-    @Autowired
-    private ObjectAlarmParameterFormatter objectFormatter;
-    private Map<String, IAlarmParameterFormatter<Object> > mapFormatters;
+    private Map<String, IAlarmParameterFormatter<Object,Object> > mapFormatters;
 
     @SuppressWarnings("unchecked")
     @Autowired
-    void setAlarmParameterFormatters (List<IAlarmParameterFormatter<?>> formatters){
+    void setAlarmParameterFormatters (List<IAlarmParameterFormatter<?,?>> formatters){
         mapFormatters = new HashMap<>();
         formatters.forEach(formatter -> mapFormatters.put(getKey(formatter.getClass()),
-                (IAlarmParameterFormatter<Object>) formatter));
+                (IAlarmParameterFormatter<Object, Object>) formatter));
     }
 
     @SuppressWarnings("rawtypes")
@@ -27,7 +25,7 @@ public class AlarmParameterFormattersFactoryService {
         return classFormatter.getName();
     }
 
-    public  IAlarmParameterFormatter<Object> getAlarmParameterFormatter (Class<? extends IAlarmParameterFormatter<?>> classFormatter){
+    public  IAlarmParameterFormatter<Object, Object> getAlarmParameterFormatter (Class<? extends IAlarmParameterFormatter<?,?>> classFormatter){
         return mapFormatters.containsKey(getKey(classFormatter))
                 ? mapFormatters.get(getKey(classFormatter))
                 : new ObjectGenericAlarmParameterFormatter<>();

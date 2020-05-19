@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @Component
-public class PrettyPrintDateAlarmParameterFormatter  implements IAlarmParameterFormatter <Date>{
+public class PrettyPrintDateAlarmParameterFormatter  implements IAlarmParameterFormatter <Date, String>{
 
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(Constants.PATTERN_DATE_PRETTY_PRINT_JODA);
 

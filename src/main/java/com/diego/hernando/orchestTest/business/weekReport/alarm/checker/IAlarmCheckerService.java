@@ -11,5 +11,5 @@ public interface IAlarmCheckerService {
     String getKeyDescription();
     List<Alarm> check(List<WorkSignDto> workSignsToCheck);
     AlarmLevel getLevel ();
-    List<IAlarmParameterFormatter<Object>> getParameterFormatters();
+    List<IAlarmParameterFormatter<Object,Object>> getParameterFormatters();
 }

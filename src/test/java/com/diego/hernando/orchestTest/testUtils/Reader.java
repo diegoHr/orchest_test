@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Reader {
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private final static ObjectMapper objectMapper = new ObjectMapper();
     public static List<WorkSignDto> readJsonDtos (String jsonDtos) throws JsonProcessingException {
         return objectMapper.readValue(jsonDtos,new TypeReference<List<WorkSignDto>>(){});
     }
