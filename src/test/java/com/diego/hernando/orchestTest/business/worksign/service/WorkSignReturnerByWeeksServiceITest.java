@@ -17,17 +17,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDate;
 import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDateTime;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@AutoConfigureMockMvc
 @Transactional
 public class WorkSignReturnerByWeeksServiceITest {
 
@@ -134,9 +136,51 @@ public class WorkSignReturnerByWeeksServiceITest {
         assertThat(weekWSigns.size(), is(1));
 
         weekWSigns = wSignRetByWeekSrv.getEmployeeWSignsOfWeek("1", "01", 1);
-        assertThat(weekWSigns.size(), is(4));
-
+        assertThat(weekWSigns.size(), is(5));
     }
+
+    @Test
+    public void test_day_complete_not_delete_any_wSign_deleteIncompleteEndWeekWSigns () {
+        List<WorkSignDto> finalList = new ArrayList<>();
+        finalList.add(builderBaseDto.build());
+        finalList.add(builderBaseDto.date(parseDate("08/07/2020 10:00:00")).build());
+        finalList.add(builderBaseDto.date(parseDate("08/07/2020 11:00:00")).type(WorkSignType.REST).build());
+        finalList.add(builderBaseDto.date(parseDate("08/07/2020 15:00:00")).type(WorkSignType.WORK)
+                .recordType(WorkSignRecordType.OUT).build());
+
+        List<WorkSignDto> editableList = new ArrayList<>(finalList);
+
+        assertThat(wSignRetByWeekSrv.deleteIncompleteEndWeekWSigns("1","01",editableList,parseDate("08/07/2020 15:00:00")), is(finalList));
+        assertThat(editableList.size(), is(4));
+    }
+
+    @Test
+    public void test_day_incomplete_delete_incomplete_wSigns_deleteIncompleteEndWeekWSigns () {
+        List<WorkSignDto> finalList = new ArrayList<>();
+        WorkSignDto dtoNotDeleted = builderBaseDto.build();
+        finalList.add(dtoNotDeleted);
+        finalList.add(builderBaseDto.date(parseDate("08/07/2020 10:00:00")).build());
+        finalList.add(builderBaseDto.date(parseDate("08/07/2020 11:00:00")).type(WorkSignType.REST).build());
+        finalList.add(builderBaseDto.date(parseDate("08/07/2020 15:00:00")).type(WorkSignType.REST)
+                .recordType(WorkSignRecordType.IN).build());
+
+        List<WorkSignDto> editableList = new ArrayList<>(finalList);
+        transJsonCrudWSignSrv.getListEntitiesSaved(finalList);
+        transJsonCrudWSignSrv.getEntitySaved(builderBaseDto.date(parseDate("09/07/2020 15:00:00"))
+                .type(WorkSignType.WORK).recordType(WorkSignRecordType.OUT).build());
+
+        assertThat(wSignRetByWeekSrv.deleteIncompleteEndWeekWSigns("1", "01",
+                editableList,parseDate("08/07/2020 15:00:00")), not(finalList));
+        assertThat(editableList.get(0), is(dtoNotDeleted));
+        assertThat(editableList.size(), is(1));
+    }
+
+    @Test
+    public void test_list_empty_not_delete_any_wSign_deleteIncompleteEndWeekWSigns () {
+        List<WorkSignDto> dtos = new ArrayList<>();
+        assertThat(wSignRetByWeekSrv.deleteIncompleteEndWeekWSigns("1", "01", dtos, new Date()).size(), is(0));
+    }
+
 
     private void addTestWSignsOfIncompletePreviousDayOfWeek (){
         transJsonCrudWSignSrv.getListEntitiesSaved(Arrays.asList(
@@ -184,6 +228,8 @@ public class WorkSignReturnerByWeeksServiceITest {
                 builderBaseDto.date(parseDate("10/05/2020 17:30:00")).type(WorkSignType.REST)
                         .recordType(WorkSignRecordType.IN).build(),
                 builderBaseDto.date(parseDate("10/05/2020 16:30:00")).type(WorkSignType.REST)
+                        .recordType(WorkSignRecordType.OUT).build(),
+                builderBaseDto.date(parseDate("11/05/2020 08:30:00")).type(WorkSignType.WORK)
                         .recordType(WorkSignRecordType.OUT).build()
         ));
     }
@@ -218,6 +264,8 @@ public class WorkSignReturnerByWeeksServiceITest {
                 builderBaseDto.date(parseDate("10/05/2020 17:30:00")).type(WorkSignType.REST)
                         .recordType(WorkSignRecordType.IN).build(),
                 builderBaseDto.date(parseDate("10/05/2020 16:30:00")).type(WorkSignType.REST)
+                        .recordType(WorkSignRecordType.OUT).build(),
+                builderBaseDto.date(parseDate("11/05/2020 10:30:00")).type(WorkSignType.WORK)
                         .recordType(WorkSignRecordType.OUT).build()
         ));
     }
@@ -329,4 +377,6 @@ public class WorkSignReturnerByWeeksServiceITest {
                         .recordType(WorkSignRecordType.IN).build()
         ));
     }
+
+
 }

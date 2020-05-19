@@ -44,8 +44,10 @@ public class IncompleteWorkWSignAlarmCheckerService implements IWeeklyAlarmCheck
                 .filter(workSignOpSrv::isWorkTypeWorkSign).collect(Collectors.toList());
         List<WorkSignDto> wSignsTrigeredAlarm = incompleteWSignOpSrv.extractIncompleteWSigns(workSignsOfWork);
 
-        return Collections.singletonList(new Alarm(wSignsTrigeredAlarm, getKeyDescription(),
-                new Object[]{wSignsTrigeredAlarm.size()}, getParameterFormatters(), getLevel()));
+        return wSignsTrigeredAlarm.size() > 0 ?
+                Collections.singletonList(new Alarm(wSignsTrigeredAlarm, getKeyDescription(),
+                        new Object[]{wSignsTrigeredAlarm.size()}, getParameterFormatters(), getLevel()))
+                :new ArrayList<>();
     }
 
     @Override

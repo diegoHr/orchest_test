@@ -29,6 +29,11 @@ public class DateOperationsService {
                 .withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
     }
 
+    public Date getFinishNextDay (Date date){
+        return new DateTime(date).plusDays(1).withHourOfDay(23)
+                .withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).toDate();
+    }
+
     public Date getInitDayFromDate (Date date){
         return new DateTime(date).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
     }

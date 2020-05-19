@@ -7,14 +7,12 @@ import com.diego.hernando.orchestTest.model.WorkSignType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 
 public class WorkSignReturnerByWeeksServiceTest {
@@ -133,46 +131,4 @@ public class WorkSignReturnerByWeeksServiceTest {
                 .recordType(WorkSignRecordType.OUT).build());
         assertThat(workSignRetByWeekSrv.getLastDayWeekWsigns(dtos, parseDate("08/08/2020 11:00:00")).size(), is(2));
     }
-
-    @Test
-    public void test_list_empty_not_delete_any_wSign_deleteIncompleteEndWeekWSigns () {
-        List<WorkSignDto> dtos = new ArrayList<>();
-        assertThat(workSignRetByWeekSrv.deleteIncompleteEndWeekWSigns(dtos, new Date()).size(), is(0));
-    }
-
-    @Test
-    public void test_day_complete_not_delete_any_wSign_deleteIncompleteEndWeekWSigns () {
-        List<WorkSignDto> finalList = new ArrayList<>();
-        finalList.add(builderBaseDto.build());
-        finalList.add(builderBaseDto.date(parseDate("08/07/2020 10:00:00")).build());
-        finalList.add(builderBaseDto.date(parseDate("08/07/2020 11:00:00")).type(WorkSignType.REST).build());
-        finalList.add(builderBaseDto.date(parseDate("08/07/2020 15:00:00")).type(WorkSignType.WORK)
-                .recordType(WorkSignRecordType.OUT).build());
-
-        List<WorkSignDto> editableList = new ArrayList<>(finalList);
-
-        assertThat(workSignRetByWeekSrv.deleteIncompleteEndWeekWSigns(editableList,parseDate("08/07/2020 15:00:00")), is(finalList));
-        assertThat(editableList.size(), is(4));
-    }
-
-    @Test
-    public void test_day_incomplete_delete_incomplete_wSigns_deleteIncompleteEndWeekWSigns () {
-        List<WorkSignDto> finalList = new ArrayList<>();
-        WorkSignDto dtoNotDeleted = builderBaseDto.build();
-        finalList.add(dtoNotDeleted);
-        finalList.add(builderBaseDto.date(parseDate("08/07/2020 10:00:00")).build());
-        finalList.add(builderBaseDto.date(parseDate("08/07/2020 11:00:00")).type(WorkSignType.REST).build());
-        finalList.add(builderBaseDto.date(parseDate("08/07/2020 15:00:00")).type(WorkSignType.REST)
-                .recordType(WorkSignRecordType.IN).build());
-
-        List<WorkSignDto> editableList = new ArrayList<>(finalList);
-
-        assertThat(workSignRetByWeekSrv.deleteIncompleteEndWeekWSigns(editableList,parseDate("08/07/2020 15:00:00")),not(finalList));
-        assertThat(editableList.get(0), is(dtoNotDeleted));
-        assertThat(editableList.size(), is(1));
-    }
-
-
-
-
 }

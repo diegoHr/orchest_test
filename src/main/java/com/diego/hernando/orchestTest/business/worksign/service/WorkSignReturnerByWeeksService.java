@@ -55,7 +55,7 @@ public class WorkSignReturnerByWeeksService {
         if(!isFreeWorkInitWeek(wSigns)){
             wSigns.addAll(0, getIncompleteWSignsOfPreviousDayOfWeek(businessId, employeeId, initWeek));
         }
-        return deleteIncompleteEndWeekWSigns(wSigns,endWeekDate);
+        return deleteIncompleteEndWeekWSigns(businessId, employeeId, wSigns,endWeekDate);
     }
 
 
@@ -105,10 +105,22 @@ public class WorkSignReturnerByWeeksService {
         return  wSignsOfWeek.size() > 0 && wSignOpSrv.isInRecordTypeAndWorkTypeWSign(wSignsOfWeek.get(0));
     }
 
-    protected List<WorkSignDto> deleteIncompleteEndWeekWSigns(List<WorkSignDto> weekWSigns, Date endWeekDate){
-        weekWSigns.removeAll(getIncompleteWSignsOfDay(
-                getLastDayWeekWsigns(weekWSigns, endWeekDate)
-        ));
+    protected List<WorkSignDto> deleteIncompleteEndWeekWSigns(String businessId, String employeeId,
+                                                              List<WorkSignDto> weekWSigns, Date endWeekDate){
+        List<WorkSignDto> wSignsNextDayDay =  transJsonCrudWSignSrv.getListDto(
+                crudWSignService.findEmployeeWorkSignsBetweenTwoDates(
+                        businessId,
+                        employeeId,
+                        new Date(endWeekDate.getTime()+1),
+                        dateOpSrv.getFinishNextDay(endWeekDate)
+                )
+        );
+        if(wSignsNextDayDay.stream().anyMatch(wSignOpSrv::isOutRecordTypeAndWorkTypeWSign)) {
+
+            weekWSigns.removeAll(getIncompleteWSignsOfDay(
+                    getLastDayWeekWsigns(weekWSigns, endWeekDate)
+            ));
+        }
         return weekWSigns;
     }
 }
