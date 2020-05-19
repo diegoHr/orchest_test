@@ -1,0 +1,35 @@
+version: "3.1"
+services:
+
+  postgres:
+    container_name: "postgres_orquest"
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_USER: ${DB_USERNAME}
+      HOSTNAME: postgres
+    ports:
+      - ${DB_PORT}:5432
+
+
+  orchest_test:
+    image: orchest_test
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASS=${DB_PASS}
+    ports:
+      - ${PORT}:8080
+
+
+
+
+
+
+
+
+
+
