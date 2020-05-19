@@ -1,6 +1,7 @@
 package com.diego.hernando.orchestTest.business;
 
 import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -8,10 +9,13 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
+import java.util.List;
 
+import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDate;
 import static com.diego.hernando.orchestTest.testUtils.DefaultDateTimeFormatter.parseDateTime;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class DateOperationsServiceTest {
@@ -91,4 +95,27 @@ public class DateOperationsServiceTest {
 
     }
 
+    @Test
+    public void test_getInitWeeks () {
+        List<Date> initWeeks = dateOpService.getInitWeeks(5, 2020);
+
+        assertThat(initWeeks.size(), is(5));
+        assertThat(initWeeks.get(0), is(parseDate("27/04/2020 00:00:00")));
+        assertThat(initWeeks.get(1), is(parseDate("04/05/2020 00:00:00")));
+        assertThat(initWeeks.get(2), is(parseDate("11/05/2020 00:00:00")));
+        assertThat(initWeeks.get(3), is(parseDate("18/05/2020 00:00:00")));
+        assertThat(initWeeks.get(4), is(parseDate("25/05/2020 00:00:00")));
+
+        assertThrows(IllegalFieldValueException.class, () -> dateOpService.getInitWeeks(0, 2020) );
+        assertThat(dateOpService.getInitWeeks(1, 2020).size(), is(5));
+
+        assertThrows(IllegalFieldValueException.class, () -> dateOpService.getInitWeeks(13, 2020) );
+        assertThat(dateOpService.getInitWeeks(12, 2020).size(), is(5));
+
+        assertThat(dateOpService.getInitWeeks(12, 20020).size(), is(5));
+        assertThat(dateOpService.getInitWeeks(12, 0).size(), is(5));
+        assertThat(dateOpService.getInitWeeks(12, -1).size(), is(5));
+
+
+    }
 }

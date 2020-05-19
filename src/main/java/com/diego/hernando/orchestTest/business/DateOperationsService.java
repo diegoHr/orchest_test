@@ -4,10 +4,13 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class DateOperationsService {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final long DURATION_DAY_MILLISECONDS = 24*60*60*1000;
 
     public DateTime getNow () {
@@ -35,7 +38,11 @@ public class DateOperationsService {
     }
 
     public Date getInitDayFromDate (Date date){
-        return new DateTime(date).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
+        return getInitDayDateTimeFromDate(date).toDate();
+    }
+
+    public DateTime getInitDayDateTimeFromDate (Date date) {
+        return new DateTime(date).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
     }
 
     public Date getFinishDayFromDate (Date date){
@@ -52,4 +59,22 @@ public class DateOperationsService {
                 || date1.isEqual(date.getTime()) || date2.isEqual(date.getTime()) ;
     }
 
+    public List<Date> getInitWeeks(int month, int year) {
+        List<Date> initWeeks = new LinkedList<>();
+        int nextMonth = month+1;
+        int nextYear = year;
+        if(month == 12){
+            nextMonth = 1;
+            nextYear = year+1;
+        }
+        Date lastMonthDay = getInitDayFromDate(DateTime.now().withDayOfMonth(1).withYear(nextYear).withMonthOfYear(nextMonth).minusDays(1).toDate());
+        DateTime initWeek = getInitDayDateTimeFromDate(DateTime.now().withYear(year).withMonthOfYear(month).withDayOfMonth(1).withDayOfWeek(1).toDate());
+
+        while(initWeek.isBefore(lastMonthDay.getTime())){
+            initWeeks.add(initWeek.toDate());
+            initWeek = initWeek.plusDays(7);
+        }
+
+        return  initWeeks;
+    }
 }

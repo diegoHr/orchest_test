@@ -34,8 +34,18 @@ public class WeekReportGeneratorService {
     @Autowired
     private DayReportManagerService dayReportMgrSrv;
 
+    public List<WeekReportDto> getWeekReports (int month, int year, String businessId, String employeeId, Locale localeUser){
+        List<Date> initWeeks = dateOpSrv.getInitWeeks(month, year);
+        return initWeeks.stream().map(initWeek -> getWeekReport(initWeek, businessId, employeeId, localeUser))
+                .collect(Collectors.toList());
+    }
+
     public WeekReportDto getWeekReport (int week, String businessId, String employeeId, Locale localeUser){
         Date initWeekDate = dateOpSrv.transformWeekToInitWeekDate(week);
+        return getWeekReport(initWeekDate, businessId, employeeId, localeUser);
+    }
+
+    public WeekReportDto getWeekReport (Date initWeekDate, String businessId, String employeeId, Locale localeUser){
         List<WorkSignDto> weekWSigns = workSignRetByWeeksSrv.getEmployeeWSingsOfWeek(businessId, employeeId, initWeekDate);
         List<AlarmDto> weekAlarms = alarmMngrSrv.generateWeeklyAlarms(weekWSigns, localeUser);
 
@@ -51,6 +61,8 @@ public class WeekReportGeneratorService {
                         dayAlarms.stream()).collect(Collectors.toList())
         );
     }
+
+
 
     protected List<AlarmDto> getDayAlarms (List<DayReportDto> dayReports, Locale locale,
                                            List<WorkSignDto> wSignsThatTriggeredErrorAlarms ){
